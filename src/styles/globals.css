@@ -1,3 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+* {
+  font-family: "Noto Sans Thai", sans-serif;
+}
+
+@keyframes animation-hmfifo {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 100% 0px;
+  }
+}
+
+.moon {
+  position: absolute;
+  height: 24rem;
+  width: 24rem;
+  top: -12.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10
+}
+
+.container-event-logo {
+  position: relative;
+  min-height: 21.25rem;
+  background-color: #000;
+}
+
+.event-light-prop {
+
+}
+
+body {
+    background: linear-gradient(
+        #017973 400px,
+        #003F51 630px,
+        rgb(30, 28, 109)
+      );
+}

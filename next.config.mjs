@@ -17,6 +17,9 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  env: {
+    cdn: "https://s3.tech.nisit.ku.ac.th/assets/loykrathong/2566",
+  },
 };
 
 export default config;
