@@ -1,8 +1,12 @@
+import AddKratong from "@/components/AddKratong";
 import Kratong from "@/components/Kratong";
 import { cdn } from "@/utils/cdn";
 import { css } from "@emotion/css";
 import styled from "@emotion/styled";
+import { Card, Form, Input } from "antd";
 import clsx from "clsx";
+import { AnimatePresence } from "framer-motion";
+import { MoveRightIcon } from "lucide-react";
 
 interface WaveProps {
   animation: string;
@@ -16,10 +20,10 @@ const Wave = styled.div<WaveProps>`
   background-repeat: repeat-x;
   background-position: left top;
   animation: ${(props) => props.animation} linear 0s infinite normal none
-    running animation-1cw62g9;
+    running wave-floating;
   backface-visibility: hidden;
 
-  @keyframes animation-1cw62g9 {
+  @keyframes wave-floating {
     0% {
       transform: translateX(0px);
     }
@@ -34,8 +38,8 @@ const Background = styled.div`
   background-repeat: repeat-x;
   background-size: auto 100%;
   background-position: left top;
-  animation: 238.41s linear 0s infinite normal none running animation-hmfifo;
-  @keyframes animation-hmfifo {
+  animation: 238.41s linear 0s infinite normal none running animation-pass;
+  @keyframes animation-pass {
     0% {
       background-position: 100% 0px;
     }
@@ -63,29 +67,53 @@ export default function Home() {
               )}
             ></Background>
           </div>
-          <div className={clsx("relative min-h-screen", css``)}>
-            <div className="pointer-events-none absolute left-0 top-[3rem] z-[3] flex h-[150px] w-full justify-end overflow-hidden">
-              <Wave animation="40s" />
+          <div className={clsx("relative min-h-[60vh]")}>
+            <div className="absolute right-0 top-[3rem] z-[3] flex h-[150px] w-full justify-end">
+              <Wave animation="40s" className="z-20" />
+              <div
+                className={clsx(
+                  "absolute bottom-[7rem] z-10 flex gap-[10rem]",
+                  css`
+                    transform: translateX(0%);
+                    animation: ${8 * 5}s linear 0s infinite normal none running
+                      floating1;
+                  `,
+                )}
+              >
+                <AnimatePresence>
+                  {[...Array(5)].map((_, i) => (
+                    <Kratong data={String(i)} key={i} />
+                  ))}
+                </AnimatePresence>
+              </div>
             </div>
-            <div className="pointer-events-none absolute left-0 top-[9rem] z-[5] flex h-[150px] w-full justify-end ">
+            <div className="absolute right-0 top-[9rem] z-[5] flex h-[150px] w-full justify-end">
               <Wave animation="30s" className="z-20" />
               <div
-                className="absolute top-0 left-0 w-full h-full "
-                style={{ opacity: 0.5 }}
+                className={clsx(
+                  "absolute bottom-[8rem] z-10 flex gap-[12rem]",
+                  css`
+                    animation: ${10 * 5}s linear 0s infinite normal none running
+                      floating2;
+                  `,
+                )}
               >
-                <div className="">
-
-                </div>
+                <AnimatePresence>
+                  {[...Array(5)].map((_, i) => (
+                    <Kratong data={String(i)} key={i} />
+                  ))}
+                </AnimatePresence>
               </div>
-              {/* <div className="absolute bottom-0 z-10 flex -translate-y-[7.5rem] gap-5">
-                <Kratong className="cursor-pointer" />
-                <Kratong />
-                <Kratong />
-              </div> */}
+            </div>
+            <div className="absolute left-0 right-0 top-[20rem] mx-auto flex max-w-lg flex-col items-center justify-center gap-10">
+              <AddKratong />
+              <div className="button-sm w-fit">คำอวยพรทั้งหมด</div>
             </div>
           </div>
         </div>
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2">asdfasdf</div>
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 text-white">
+          Copyright © 2023 KU Tech
+        </div>
       </div>
     </>
   );

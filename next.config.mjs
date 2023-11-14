@@ -19,6 +19,7 @@ const config = {
   },
   env: {
     cdn: "https://s3.tech.nisit.ku.ac.th/assets/loykrathong/2566",
+    pocketbase: "https://loykrathong.pockethost.io",
   },
 };
 
