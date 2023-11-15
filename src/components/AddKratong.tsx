@@ -1,15 +1,21 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Form, Modal } from "antd";
-import { AnimatePresence } from "framer-motion";
-import { MoveRightIcon, XIcon } from "lucide-react";
+import { Steps } from "antd";
+import { MoveLeftIcon, MoveRightIcon, XIcon } from "lucide-react";
 import { NextPage } from "next";
 import { Fragment, useState } from "react";
-import { motion } from "framer-motion";
+import SelectKratong from "./SelectKratong";
+import { useMediaQuery } from "usehooks-ts";
+import InputBlessing from "./InputBlessing";
+import KratongAuthor from "./KratongAuthor";
 
 interface Props {}
 
 const AddKratong: NextPage<Props> = () => {
   let [isOpen, setIsOpen] = useState(true);
+  const [Step, setStep] = useState(0);
+  const isMobile = useMediaQuery("(max-width: 640px)");
+
+  //   const
 
   const handleModal = () => {
     setIsOpen(!isOpen);
@@ -23,13 +29,24 @@ const AddKratong: NextPage<Props> = () => {
     setIsOpen(true);
   }
 
+  const nextStep = () => {
+    setStep((pre) => pre + 1);
+  };
+
+  const prevStep = () => {
+    if (Step === 0) return;
+    setStep((pre) => pre - 1);
+  };
+
+  const onCreateKratong = () => {};
+
   return (
     <>
       <button className="button-xl w-fit gap-2" onClick={handleModal}>
         สร้างกระทง <MoveRightIcon />
       </button>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={()=>{}}>
+        <Dialog as="div" className="relative z-10" onClose={() => {}}>
           <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
             <div className="fixed inset-0 bg-black/30" />
           </Transition.Child>
@@ -37,18 +54,44 @@ const AddKratong: NextPage<Props> = () => {
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom=" -translate-y-[20rem]" enterTo=" scale-100 translate-y-0" leave="ease-in duration-300" leaveFrom="opacity-100 scale-100 translate-y-0" leaveTo="opacity-0 translate-y-[20rem]">
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl border-2 border-gray-300/50 bg-transparent relative p-10 text-left align-middle shadow-xl backdrop-blur-3xl transition-all">
-                  
-                    <XIcon className="absolute top-3 right-3 text-white cursor-pointer" onClick={closeModal} />
+                <Dialog.Panel className="relative flex w-full max-w-2xl transform flex-col gap-5 overflow-hidden rounded-2xl border-2 border-gray-300/50 bg-transparent p-5 text-left align-middle shadow-xl backdrop-blur-3xl transition-all md:p-10">
+                  <XIcon className="absolute right-3 top-3 cursor-pointer text-white" onClick={closeModal} />
                   <Dialog.Title className="text-2xl font-medium leading-6 text-white">สร้างกระทง</Dialog.Title>
-                  <Form className="mt-5">
-                    <Form.Item>
-                      <input type="text" className="w-full rounded-full bg-black/30 p-5 text-xl text-white focus:outline-none" />
-                    </Form.Item>
-                    <Form.Item>
-                      <button className="button-lg w-full justify-center">สร้างกระทง</button>
-                    </Form.Item>
-                  </Form>
+                  <Steps
+                    current={Step}
+                    direction="horizontal"
+                    responsive={false}
+                    items={[
+                      {
+                        title: isMobile ? "" : "เลือกกระทง",
+                      },
+                      {
+                        title: isMobile ? "" : "คำอวยพร",
+                      },
+                      {
+                        title: isMobile ? "" : "หาคนลอย",
+                      },
+                    ]}
+                  />
+                  {Step === 0 ? <SelectKratong /> : Step === 1 ? <InputBlessing /> : <KratongAuthor />}
+
+                  <div className="flex justify-center gap-5">
+                    {Step !== 0 && (
+                      <button onClick={prevStep} className="button-md gap-2">
+                        <MoveLeftIcon /> ย้อนกลับ
+                      </button>
+                    )}
+
+                    <button onClick={Step === 2 ? onCreateKratong : nextStep} className="button-md gap-2">
+                      {Step === 2 ? (
+                        <>สร้างกระทง</>
+                      ) : (
+                        <>
+                          ถัดไป <MoveRightIcon />
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

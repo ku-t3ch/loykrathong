@@ -19,8 +19,7 @@ const Wave = styled.div<WaveProps>`
   background-size: auto 100%;
   background-repeat: repeat-x;
   background-position: left top;
-  animation: ${(props) => props.animation} linear 0s infinite normal none
-    running wave-floating;
+  animation: ${(props) => props.animation} linear 0s infinite normal none running wave-floating;
   backface-visibility: hidden;
 
   @keyframes wave-floating {
@@ -56,16 +55,8 @@ export default function Home() {
         <img src={cdn + "/moon.webp"} className="moon" alt="moon-image" />
         <div className="overflow-hidden">
           <div className={clsx("relative min-h-[345px]")}>
-            <div className="absolute bottom-0 left-1/2 top-0 z-50 flex -translate-x-1/2 items-center">
-              <div className="text-center text-3xl font-bold text-white">
-                ลอยกระทง 2566
-              </div>
-            </div>
-            <Background
-              className={clsx(
-                "absolute bottom-0 left-0 right-0 z-0 h-full min-w-[5298px]",
-              )}
-            ></Background>
+            <img className="absolute left-1/2 top-[8rem] z-10 flex w-[24rem] -translate-x-1/2 items-center drop-shadow-md" src={cdn + "/logo.png"} alt="" />
+            <Background className={clsx("absolute bottom-0 left-0 right-0 z-0 h-full min-w-[5298px]")}></Background>
           </div>
           <div className={clsx("relative min-h-[60vh]")}>
             <div className="absolute right-0 top-[3rem] z-[3] flex h-[150px] w-full justify-end">
@@ -75,8 +66,7 @@ export default function Home() {
                   "absolute bottom-[7rem] z-10 flex gap-[10rem]",
                   css`
                     transform: translateX(0%);
-                    animation: ${8 * 5}s linear 0s infinite normal none running
-                      floating1;
+                    animation: ${8 * 5}s linear 0s infinite normal none running floating1;
                   `,
                 )}
               >
@@ -93,8 +83,7 @@ export default function Home() {
                 className={clsx(
                   "absolute bottom-[8rem] z-10 flex gap-[12rem]",
                   css`
-                    animation: ${10 * 5}s linear 0s infinite normal none running
-                      floating2;
+                    animation: ${10 * 5}s linear 0s infinite normal none running floating2;
                   `,
                 )}
               >
@@ -111,9 +100,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 text-white">
-          Copyright © 2023 KU Tech
-        </div>
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 text-white">Copyright © 2023 KU Tech</div>
       </div>
     </>
   );
