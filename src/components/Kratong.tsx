@@ -57,7 +57,7 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
                 <span>fdkdnfhfi;</span>
             </div> */}
             <img
-                src={cdn + "/krathong/3.webp"}
+                src={cdn + data?.image!}
                 className="pointer-events-none relative z-10 w-[8rem] md:w-[10rem]"
                 alt=""
             />
