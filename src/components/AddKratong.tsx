@@ -23,7 +23,7 @@ type KratongState = {
 interface Props { }
 
 const AddKratong: NextPage<Props> = () => {
-    let [isOpen, setIsOpen] = useState(true);
+    let [isOpen, setIsOpen] = useState(false);
     const [Step, setStep] = useLocalStorage("step", 0);
     const isMobile = useMediaQuery("(max-width: 640px)");
     const krathongApi = api.krathongRouter.send.useMutation();
