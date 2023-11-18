@@ -118,7 +118,7 @@ const AddKratong: NextPage<Props> = () => {
                                                 title: isMobile ? "" : "เลือกกระทง",
                                             },
                                             {
-                                                title: isMobile ? "" : "คำอวยพร",
+                                                title: isMobile ? "" : "คำอธิษฐาน",
                                             },
                                             {
                                                 title: isMobile ? "" : "ผู้สร้าง",

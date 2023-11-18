@@ -9,6 +9,7 @@ import { Card, Form, Input } from "antd";
 import clsx from "clsx";
 import { AnimatePresence } from "framer-motion";
 import { MoveRightIcon } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface WaveProps {
@@ -127,13 +128,14 @@ export default function Home() {
                                 </AnimatePresence>
                             </div>
                         </div>
-                        <div className="absolute left-0 right-0 top-[20rem] mx-auto flex max-w-lg flex-col items-center justify-center gap-10">
+                        <div className="absolute left-0 right-0 top-[15rem] z-10 mx-auto flex max-w-lg flex-col items-center justify-center gap-10">
                             <AddKratong />
-                            <div className="button-sm w-fit">คำอวยพรทั้งหมด</div>
+                            <Link href="/blessing" className="button-sm w-fit">คำอธิษฐานทั้งหมด</Link>
+                            <div className="text-white">Copyright © 2023 KU Tech</div>
                         </div>
+
                     </div>
                 </div>
-                <div className="fixed bottom-0 left-1/2 -translate-x-1/2 text-white">Copyright © 2023 KU Tech</div>
             </div>
         </>
     );

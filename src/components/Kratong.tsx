@@ -48,9 +48,9 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
                     {data?.blessing}
                 </div>
             )}
-            <div className="absolute bottom-[6rem] z-50 flex translate-x-[7rem] md:translate-x-[9rem] gap-2">
-                <Avatar src={url} />
-                <span>{data?.authorName}</span>
+            <div className="absolute bottom-[4rem] z-50 flex items-center translate-x-[3rem] md:translate-x-[5rem]">
+                <Avatar src={url} className="bg-white/80 border-yellow-600 border-2 translate-x-[30px]" size={"large"} />
+                <span className="bg-white/80 border-2 whitespace-nowrap border-yellow-600 h-fit px-2 rounded-full pl-8">{data?.authorName}</span>
             </div>
             {/* <div className="absolute bottom-[3.8rem] z-50 flex translate-x-[8rem] md:translate-x-[10rem] gap-2">
                 <Avatar />

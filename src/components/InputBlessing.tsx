@@ -32,7 +32,7 @@ const InputBlessing: NextPage<Props> = ({ onChange, value }) => {
 
     return (
         <div className="relative flex flex-col gap-3">
-            <Input.TextArea defaultValue={value} size="large" value={Blessing} onChange={onChangeBlessing} placeholder="คำอวยพร" rows={12} maxLength={120} />
+            <Input.TextArea defaultValue={value} size="large" value={Blessing} onChange={onChangeBlessing} placeholder="คำอธิษฐาน" rows={12} maxLength={120} />
             <div className="flex justify-between text-white">
                 <button onClick={onRandom} className="button-sm">
                     <DicesIcon size={20} />
