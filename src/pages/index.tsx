@@ -1,15 +1,18 @@
 import AddKratong from "@/components/AddKratong";
 import Kratong from "@/components/Kratong";
+import { Krathong } from "@/interfaces/Krathong";
 import { cdn } from "@/utils/cdn";
+import { pb } from "@/utils/pocketbase";
 import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 import { Card, Form, Input } from "antd";
 import clsx from "clsx";
 import { AnimatePresence } from "framer-motion";
 import { MoveRightIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface WaveProps {
-  animation: string;
+    animation: string;
 }
 
 const Wave = styled.div<WaveProps>`
@@ -49,59 +52,89 @@ const Background = styled.div`
 `;
 
 export default function Home() {
-  return (
-    <>
-      <div className="relative min-h-screen">
-        <img src={cdn + "/moon.webp"} className="moon" alt="moon-image" />
-        <div className="overflow-hidden">
-          <div className={clsx("relative min-h-[345px]")}>
-            <img className="absolute left-1/2 top-[8rem] z-10 flex w-[24rem] -translate-x-1/2 items-center drop-shadow-md" src={cdn + "/logo.png"} alt="" />
-            <Background className={clsx("absolute bottom-0 left-0 right-0 z-0 h-full min-w-[5298px]")}></Background>
-          </div>
-          <div className={clsx("relative min-h-[60vh]")}>
-            <div className="absolute right-0 top-[3rem] z-[3] flex h-[150px] w-full justify-end">
-              <Wave animation="40s" className="z-20" />
-              <div
-                className={clsx(
-                  "absolute bottom-[7rem] z-10 flex gap-[10rem]",
-                  css`
+
+    const [Krathongs, setKrathongs] = useState<Krathong[]>([])
+
+    const [KeyRerender, setKeyRerender] = useState(0)
+
+    const getData = async () => {
+        pb.autoCancellation(false)
+        const records = await pb.collection('krathong').getFullList<Krathong>({
+            sort: '-created',
+        });
+        setKrathongs(records)
+    }
+
+
+
+    useEffect(() => {
+        getData();
+
+        pb.collection('krathong').subscribe<Krathong>('*', function (e) {
+            setKrathongs(pre => [e.record, ...pre])
+            setKrathongs(pre => pre.slice(0, 5))
+            setKeyRerender(pre => pre + 1)
+        });
+
+    }, [])
+
+
+
+    return (
+        <>
+            <div className="relative min-h-screen">
+                <img src={cdn + "/moon.webp"} className="moon" alt="moon-image" />
+                <div className="overflow-hidden">
+                    <div className={clsx("relative min-h-[345px]")}>
+                        <img className="absolute left-1/2 top-[8rem] z-10 flex w-[24rem] -translate-x-1/2 items-center drop-shadow-md" src={cdn + "/logo.png"} alt="" />
+                        <Background className={clsx("absolute bottom-0 left-0 right-0 z-0 h-full min-w-[5298px]")}></Background>
+                    </div>
+                    <div className={clsx("relative min-h-[60vh]")}>
+                        <div className="absolute right-0 top-[3rem] z-[3] flex h-[150px] w-full justify-end">
+                            <Wave animation="40s" className="z-20" />
+                            <div
+                                key={KeyRerender}
+                                className={clsx(
+                                    "absolute bottom-[7rem] z-10 flex gap-[10rem]",
+                                    css`
                     transform: translateX(0%);
-                    animation: ${8 * 5}s linear 0s infinite normal none running floating1;
+                    animation: ${8 * Krathongs.length}s linear 0s infinite normal none running floating1;
                   `,
-                )}
-              >
-                <AnimatePresence>
-                  {[...Array(5)].map((_, i) => (
-                    <Kratong data={String(i)} key={i} />
-                  ))}
-                </AnimatePresence>
-              </div>
-            </div>
-            <div className="absolute right-0 top-[9rem] z-[5] flex h-[150px] w-full justify-end">
-              <Wave animation="30s" className="z-20" />
-              <div
-                className={clsx(
-                  "absolute bottom-[8rem] z-10 flex gap-[12rem]",
-                  css`
-                    animation: ${10 * 5}s linear 0s infinite normal none running floating2;
+                                )}
+                            >
+                                <AnimatePresence >
+                                    {Krathongs.map((krathong, i) => (
+                                        <Kratong data={krathong} key={i} />
+                                    ))}
+                                </AnimatePresence>
+                            </div>
+                        </div>
+                        <div className="absolute right-0 top-[9rem] z-[5] flex h-[150px] w-full justify-end">
+                            <Wave animation="30s" className="z-20" />
+                            <div
+                                key={KeyRerender}
+                                className={clsx(
+                                    "absolute bottom-[8rem] z-10 flex gap-[12rem]",
+                                    css`
+                    animation: ${10 * Krathongs.length}s linear 0s infinite normal none running floating2;
                   `,
-                )}
-              >
-                <AnimatePresence>
-                  {[...Array(5)].map((_, i) => (
-                    <Kratong data={String(i)} key={i} />
-                  ))}
-                </AnimatePresence>
-              </div>
+                                )}
+                            >
+                                <AnimatePresence>
+                                    {Krathongs.map((krathong, i) => (
+                                        <Kratong data={krathong} key={i} />
+                                    ))}
+                                </AnimatePresence>
+                            </div>
+                        </div>
+                        <div className="absolute left-0 right-0 top-[20rem] mx-auto flex max-w-lg flex-col items-center justify-center gap-10">
+                            <AddKratong />
+                            <div className="button-sm w-fit">คำอวยพรทั้งหมด</div>
+                        </div>
+                    </div>
+                </div>
+                <div className="fixed bottom-0 left-1/2 -translate-x-1/2 text-white">Copyright © 2023 KU Tech</div>
             </div>
-            <div className="absolute left-0 right-0 top-[20rem] mx-auto flex max-w-lg flex-col items-center justify-center gap-10">
-              <AddKratong />
-              <div className="button-sm w-fit">คำอวยพรทั้งหมด</div>
-            </div>
-          </div>
-        </div>
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 text-white">Copyright © 2023 KU Tech</div>
-      </div>
-    </>
-  );
+        </>
+    );
 }

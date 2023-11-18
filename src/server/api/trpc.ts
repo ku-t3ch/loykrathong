@@ -15,6 +15,7 @@ import { ZodError } from "zod";
 
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
+import { pb, pbAuth } from "@/utils/pocketbase";
 
 /**
  * 1. CONTEXT
@@ -38,10 +39,12 @@ interface CreateContextOptions {
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-const createInnerTRPCContext = (opts: CreateContextOptions) => {
+const createInnerTRPCContext = async (opts: CreateContextOptions) => {
+  const pbDB = await pbAuth(pb);
   return {
     session: opts.session,
     db,
+    pb: pbDB,
   };
 };
 
@@ -77,8 +80,7 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
       ...shape,
       data: {
         ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
+        zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
       },
     };
   },
