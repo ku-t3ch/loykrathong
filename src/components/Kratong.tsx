@@ -49,7 +49,7 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
                 </div>
             )}
             <div className="absolute bottom-[6rem] z-50 flex translate-x-[7rem] md:translate-x-[9rem] gap-2">
-                <Avatar src={url}  />
+                <Avatar src={url} />
                 <span>{data?.authorName}</span>
             </div>
             {/* <div className="absolute bottom-[3.8rem] z-50 flex translate-x-[8rem] md:translate-x-[10rem] gap-2">
@@ -57,7 +57,7 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
                 <span>fdkdnfhfi;</span>
             </div> */}
             <img
-                src={cdn + data?.image!}
+                src={cdn + "/" + data?.image!}
                 className="pointer-events-none relative z-10 w-[8rem] md:w-[10rem]"
                 alt=""
             />
