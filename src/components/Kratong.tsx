@@ -25,7 +25,6 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
         } else {
             setUrl(cdn + data?.authorimageDefault!);
         }
-
     }
 
     useEffect(() => {
@@ -41,7 +40,7 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
-            className={clsx("kratong-anim before: relative w-[10rem]", className)}
+            className={clsx("kratong-anim relative w-[10rem] ", className)}
         >
             {ShowDetail && (
                 <div className="absolute bottom-[7rem] z-50 w-[10rem] -translate-y-5 rounded-lg border-2 border-gray-400 bg-white/80 p-2 text-xs">
@@ -58,7 +57,7 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
             </div> */}
             <img
                 src={cdn + "/" + data?.image!}
-                className="pointer-events-none relative z-10 w-[8rem] md:w-[10rem]"
+                className="pointer-events-none object-cover origin-bottom relative z-10 w-[8rem] md:w-[10rem]"
                 alt=""
             />
         </motion.div>

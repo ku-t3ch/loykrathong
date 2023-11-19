@@ -62,6 +62,7 @@ export default function Home() {
         pb.autoCancellation(false)
         const records = await pb.collection('krathong').getFullList<Krathong>({
             sort: '-created',
+            perPage: 5,
         });
         setKrathongs(records)
     }
@@ -96,7 +97,7 @@ export default function Home() {
                             <div
                                 key={KeyRerender}
                                 className={clsx(
-                                    "absolute bottom-[7rem] z-10 flex gap-[10rem]",
+                                    "absolute bottom-[6rem] z-10 flex gap-[10rem]",
                                     css`
                     transform: translateX(0%);
                     animation: ${8 * Krathongs.length}s linear 0s infinite normal none running floating1;
