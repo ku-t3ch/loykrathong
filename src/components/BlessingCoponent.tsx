@@ -33,22 +33,24 @@ const BlessingCoponent: NextPage<Props> = ({ data }) => {
     }, [])
 
     return (
-        <div className='p-5 w-full relative flex gap-3 rounded-lg border-2 border-gray-400 bg-white/80'>
-            <img className='w-[6rem]' src={cdn + "/" + data.image} alt="" />
-            <div className='flex flex-col gap-1'>
-                <div className='flex'>
+        <div className='p-5 w-full h-[10rem] relative flex gap-3 rounded-lg border-2 border-gray-400 bg-white/80'>
+            <img className='w-[6rem] drop-shadow-lg object-contain' src={cdn + "/" + data.image} alt="" />
+            <div className='flex flex-col gap-1 truncate'>
+                <div className='flex items-center gap-3'>
                     <Avatar src={ImageUrl} size={"default"} />
                     <span className="whitespace-nowrap h-fit rounded-full">{data?.authorName}</span>
                 </div>
-                <div className='w-[10rem] p-2 text-xs'>
+                <div className='w-full p-2 text-xs whitespace-pre-line'>
                     {data?.blessing}
                 </div>
             </div>
-            <div className='absolute bottom-2 right-2'>
-                {new Date(data?.created!).toLocaleDateString("th-TH", {
+            <div className='absolute bottom-2 right-2 text-xs'>
+                {new Date(data?.created!).toLocaleString("th-TH", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
                 })}
             </div>
         </div>
