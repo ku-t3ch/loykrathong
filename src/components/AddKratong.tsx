@@ -28,7 +28,7 @@ const AddKratong: NextPage<Props> = () => {
     const isMobile = useMediaQuery("(max-width: 640px)");
     const krathongApi = api.krathongRouter.send.useMutation();
 
-    const [Kratong, setKratong] = useLocalStorage<KratongState>("kratong", {
+    const [Kratong, setKratong] = useState<KratongState>({
         krathong: undefined,
         blessing: undefined,
         author: {
@@ -59,7 +59,17 @@ const AddKratong: NextPage<Props> = () => {
         setStep((pre) => pre - 1);
     };
 
-    const resetForm = () => { }
+    const resetForm = () => {
+        setKratong({
+            krathong: undefined,
+            blessing: undefined,
+            author: {
+                image: undefined,
+                name: undefined,
+                isImageUpload: undefined,
+            },
+        })
+    }
 
     const onCreateKratong = () => {
         if (!Kratong.krathong || !Kratong.blessing || !Kratong.author.name || (!Kratong.author.image && !Kratong.author.isImageUpload)) {
@@ -83,6 +93,7 @@ const AddKratong: NextPage<Props> = () => {
                     id: keyLoading
                 });
                 closeModal();
+                resetForm();
             },
             onError: (error) => {
                 toast.error(error.message, {
@@ -95,7 +106,7 @@ const AddKratong: NextPage<Props> = () => {
     return (
         <>
             <button className="button-xl w-fit gap-2" onClick={handleModal}>
-                สร้างกระทง <MoveRightIcon />
+                ไปลอยกระทง <MoveRightIcon />
             </button>
             <Transition appear show={isOpen} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={() => { }}>

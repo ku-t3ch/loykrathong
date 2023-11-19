@@ -12,8 +12,17 @@ export default createNextApiHandler({
     env.NODE_ENV === "development"
       ? ({ path, error }) => {
           console.error(
-            `❌ tRPC failed on ${path ?? "<no-path>"}: ${error.message}`
+            `❌ tRPC failed on ${path ?? "<no-path>"}: ${error.message}`,
           );
         }
       : undefined,
 });
+
+export const config = {
+  // Config for bodyparser it is working
+  api: {
+    bodyParser: {
+      sizeLimit: "8mb", // Set desired value here
+    },
+  },
+};
