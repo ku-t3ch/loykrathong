@@ -1,12 +1,10 @@
 import BlessingCoponent from '@/components/BlessingCoponent'
 import { Krathong } from '@/interfaces/Krathong'
 import { cdn } from '@/utils/cdn'
-import { pb } from '@/utils/pocketbase'
-import { Avatar } from 'antd'
 import { ArrowLeftIcon } from 'lucide-react'
 import { NextPage } from 'next'
 import { useRouter } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Props { }
 
@@ -19,7 +17,7 @@ const Blessing: NextPage<Props> = () => {
 
     const getData = async () => {
         setIsloading(true)
-        const res = await fetch(`https://loykrathong.pockethost.io/api/collections/krathong/records?page=${page}&perPage=10&skipTotal=1&sort=-created`)
+        const res = await fetch(`${process.env.pocketbase}/api/collections/krathong/records?page=${page}&perPage=10&skipTotal=1&sort=-created`)
         const records = await res.json()
         if (records.items.length === 0) {
             setHasMore(false)
