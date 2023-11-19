@@ -3,6 +3,7 @@ import { cdn } from '@/utils/cdn'
 import { pb } from '@/utils/pocketbase'
 import { Avatar } from 'antd'
 import { NextPage } from 'next'
+import { RecordModel } from 'pocketbase'
 import { useEffect, useState } from 'react'
 
 interface Props {
@@ -15,7 +16,11 @@ const BlessingCoponent: NextPage<Props> = ({ data }) => {
 
     const fileNameToUrl = async () => {
         if (data?.authorimageUpload) {
-            const record = await pb.collection('krathong').getOne(data?.id!);
+            const record = {
+                id: data.id,
+                collectionId: data.collectionId,
+                collectionName: data.collectionName,
+            } as RecordModel
             const url = pb.files.getUrl(record, data?.authorimageUpload!, { 'thumb': '100x250' });
             setImageUrl(url)
         } else {

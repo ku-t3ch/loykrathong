@@ -74,20 +74,21 @@
 
 body {
   background: linear-gradient(#017973 400px, #003f51 630px, rgb(30, 28, 109));
+  min-height: 100vh;
 }
 
 .button-md {
-  @apply cursor-pointer select-none rounded-full border bg-black/50 px-4 py-2 text-white hover:bg-black flex;
+  @apply flex cursor-pointer select-none rounded-full border bg-black/50 px-4 py-2 text-white hover:bg-black;
 }
 
 .button-sm {
-    @apply cursor-pointer select-none rounded-full border bg-black/50 px-3 py-1 text-white text-sm hover:bg-black flex;
+  @apply flex cursor-pointer select-none rounded-full border bg-black/50 px-3 py-1 text-sm text-white hover:bg-black;
 }
 
 .button-lg {
-    @apply cursor-pointer select-none rounded-full border bg-black/50 px-5 py-3 text-white text-lg hover:bg-black flex;
+  @apply flex cursor-pointer select-none rounded-full border bg-black/50 px-5 py-3 text-lg text-white hover:bg-black;
 }
 
 .button-xl {
-    @apply cursor-pointer select-none rounded-full border bg-black/50 px-6 py-3 text-white text-xl hover:bg-black flex;
+  @apply flex cursor-pointer select-none rounded-full border bg-black/50 px-6 py-3 text-xl text-white hover:bg-black;
 }

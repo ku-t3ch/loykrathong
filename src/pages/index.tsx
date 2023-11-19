@@ -134,7 +134,6 @@ export default function Home() {
                             <Link href="/blessing" className="button-sm w-fit">คำอธิษฐานทั้งหมด</Link>
                             <div className="text-white">Copyright © 2023 KU Tech</div>
                         </div>
-
                     </div>
                 </div>
             </div>

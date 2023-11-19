@@ -34,12 +34,46 @@ const KratongAuthor: NextPage<Props> = ({ onChange, value }) => {
             if (file) {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = () => {
-                    const base64 = reader.result;
+                reader.onload = async () => {
+                    const base64 = reader.result as string;
+                    const resizedImage = await resizeImage(base64, 300, 300); // Adjust the maxWidth and maxHeight accordingly
                     setSelect(undefined);
-                    setImage(base64 as string);
+                    setImage(resizedImage);
                 };
             }
+        });
+    };
+
+    const resizeImage = (base64: string, maxWidth: number, maxHeight: number): Promise<string> => {
+        return new Promise((resolve) => {
+            const img = new window.Image();
+            img.src = base64 as string;
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height *= maxWidth / width;
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width *= maxHeight / height;
+                        height = maxHeight;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext("2d");
+                ctx?.drawImage(img, 0, 0, width, height);
+
+                const resizedBase64 = canvas.toDataURL("image/jpeg");
+                resolve(resizedBase64);
+            };
         });
     };
 
@@ -79,7 +113,7 @@ const KratongAuthor: NextPage<Props> = ({ onChange, value }) => {
                     </div>
                     <div onClick={() => onSelect("/avatar/1.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
                         <img className="object-cover" src={cdn + "/avatar/1.webp"} alt="" />
-                        
+
                         {Select === "/avatar/1.webp" && (
                             <div className="absolute bottom-1 right-1 flex h-[1rem] w-[1rem] items-center justify-center rounded-full bg-green-500 md:h-[2rem] md:w-[2rem]">
                                 <CheckIcon />

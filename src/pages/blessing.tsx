@@ -59,7 +59,7 @@ const Blessing: NextPage<Props> = () => {
             >
                 Load More
             </button>}
-
+            <div className="text-white my-5">Copyright © 2023 KU Tech</div>
         </div>
     )
 }

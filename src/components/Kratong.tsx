@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Krathong } from "@/interfaces/Krathong";
 import { pb } from "@/utils/pocketbase";
+import { RecordModel } from "pocketbase";
 
 interface Props {
     className?: string;
@@ -19,7 +20,12 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
 
     const fileNameToUrl = async () => {
         if (data?.authorimageUpload) {
-            const record = await pb.collection('krathong').getOne(data?.id!);
+            const record = {
+                id: data.id,
+                collectionId: data.collectionId,
+                collectionName: data.collectionName,
+            } as RecordModel
+            
             const url = pb.files.getUrl(record, data?.authorimageUpload!, { 'thumb': '100x250' });
             setUrl(url);
         } else {

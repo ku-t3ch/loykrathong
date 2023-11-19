@@ -24,7 +24,7 @@ interface Props { }
 
 const AddKratong: NextPage<Props> = () => {
     let [isOpen, setIsOpen] = useState(false);
-    const [Step, setStep] = useLocalStorage("step", 0);
+    const [Step, setStep] = useState(0);
     const isMobile = useMediaQuery("(max-width: 640px)");
     const krathongApi = api.krathongRouter.send.useMutation();
 
@@ -69,6 +69,7 @@ const AddKratong: NextPage<Props> = () => {
                 isImageUpload: undefined,
             },
         })
+        setStep(0);
     }
 
     const onCreateKratong = () => {
@@ -76,6 +77,8 @@ const AddKratong: NextPage<Props> = () => {
             toast.error("กรุณากรอกข้อมูลให้ครบถ้วน");
             return;
         }
+
+        if (krathongApi.isLoading) return;
 
         const keyLoading = toast.loading("กำลังสร้างกระทง...");
 
