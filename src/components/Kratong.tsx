@@ -49,7 +49,7 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
             className={clsx("kratong-anim relative w-[10rem] ", className)}
         >
             {ShowDetail && (
-                <div className="absolute bottom-[7rem] z-50 w-[10rem] -translate-y-5 rounded-lg border-2 border-gray-400 bg-white/80 p-2 text-xs">
+                <div className="absolute bottom-[7rem] whitespace-normal truncate z-50 w-[10rem] -translate-y-5 rounded-lg border-2 border-gray-400 bg-white/80 p-2 text-xs">
                     {data?.blessing}
                 </div>
             )}

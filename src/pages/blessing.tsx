@@ -19,6 +19,8 @@ const Blessing: NextPage<Props> = () => {
         setIsloading(true)
         const res = await fetch(`${process.env.pocketbase}/api/collections/krathong/records?page=${page}&perPage=10&skipTotal=1&sort=-created`)
         const records = await res.json()
+        console.log(records);
+        
         if (records.items.length === 0) {
             setHasMore(false)
         }
