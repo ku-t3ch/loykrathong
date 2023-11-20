@@ -3,6 +3,7 @@ export interface Krathong {
   collectionId: string;
   collectionName: string;
   created: string;
+  created2: string;
   updated: string;
   blessing: string;
   image: string;

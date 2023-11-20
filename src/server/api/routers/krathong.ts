@@ -21,7 +21,6 @@ export const krathongRouter = createTRPCRouter({
       const { pb } = ctx;
 
       try {
-
         if (input.author.avatarUpload) {
           const base64 = input.author.avatarUpload.split(",")[1];
           const buffer = Buffer.from(base64!, "base64");
@@ -34,6 +33,7 @@ export const krathongRouter = createTRPCRouter({
             image: krathongImage,
             authorName: input.author.name,
             authorimageUpload: file,
+            created2: new Date().toISOString(),
           });
         } else {
           await pb.collection("krathong").create({
@@ -41,6 +41,7 @@ export const krathongRouter = createTRPCRouter({
             image: krathongImage,
             authorName: input.author.name,
             authorimageDefault: input.author.avatar,
+            created2: new Date().toISOString(),
           });
         }
       } catch (error) {
