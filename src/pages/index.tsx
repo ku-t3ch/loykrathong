@@ -11,6 +11,7 @@ import { AnimatePresence } from "framer-motion";
 import { MoveRightIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import _ from "lodash";
 
 interface WaveProps {
     animation: string;
@@ -54,7 +55,8 @@ const Background = styled.div`
 
 export default function Home() {
 
-    const [Krathongs, setKrathongs] = useState<Krathong[]>([])
+    const [Krathongs1, setKrathongs1] = useState<Krathong[]>([])
+    const [Krathongs2, setKrathongs2] = useState<Krathong[]>([])
 
     const [KeyRerender, setKeyRerender] = useState(0)
 
@@ -62,9 +64,13 @@ export default function Home() {
         pb.autoCancellation(false)
         const records = await pb.collection('krathong').getFullList<Krathong>({
             sort: '-created',
-            perPage: 5,
+            perPage: 10,
         });
-        setKrathongs(records)
+
+        const per = Math.ceil(records.length / 2) > 5 ? 5 : Math.ceil(records.length / 2)
+
+        setKrathongs1(records.slice(0, per))
+        setKrathongs2(records.slice(per, 10))
     }
 
 
@@ -73,13 +79,21 @@ export default function Home() {
         getData();
 
         pb.collection('krathong').subscribe<Krathong>('*', function (e) {
-            setKrathongs(pre => [e.record, ...pre])
-            setKrathongs(pre => pre.slice(0, 5))
-            setKeyRerender(pre => pre + 1)
+            if (Krathongs1.length < Krathongs2.length) {
+                setKrathongs1(pre => [e.record, ...pre])
+                setKrathongs1(pre => pre.slice(0, 5))
+            } else if (Krathongs2.length < Krathongs1.length) {
+                setKrathongs2(pre => [e.record, ...pre])
+                setKrathongs2(pre => pre.slice(0, 5))
+            } else {
+                setKrathongs1(pre => [e.record, ...pre])
+                setKrathongs1(pre => pre.slice(0, 5))
+            }
         });
 
     }, [])
 
+    console.log(Krathongs1.length, Krathongs2.length);
 
 
     return (
@@ -97,15 +111,15 @@ export default function Home() {
                             <div
                                 key={KeyRerender}
                                 className={clsx(
-                                    "absolute bottom-[6rem] z-10 flex gap-[10rem]",
+                                    "absolute bottom-[8.5rem] z-10 flex gap-[10rem]",
                                     css`
                     transform: translateX(0%);
-                    animation: ${8 * Krathongs.length}s linear 0s infinite normal none running floating1;
+                    animation: ${8 * Krathongs1.length}s linear 0s infinite normal none running floating1;
                   `,
                                 )}
                             >
                                 <AnimatePresence >
-                                    {Krathongs.map((krathong, i) => (
+                                    {Krathongs1.map((krathong, i) => (
                                         <Kratong data={krathong} key={i} />
                                     ))}
                                 </AnimatePresence>
@@ -116,14 +130,14 @@ export default function Home() {
                             <div
                                 key={KeyRerender}
                                 className={clsx(
-                                    "absolute bottom-[8rem] z-10 flex gap-[12rem]",
+                                    "absolute bottom-[8.5rem] z-10 flex gap-[12rem]",
                                     css`
-                    animation: ${10 * Krathongs.length}s linear 0s infinite normal none running floating2;
+                    animation: ${10 * Krathongs2.length}s linear 0s infinite normal none running floating2;
                   `,
                                 )}
                             >
                                 <AnimatePresence>
-                                    {Krathongs.map((krathong, i) => (
+                                    {Krathongs2.map((krathong, i) => (
                                         <Kratong data={krathong} key={i} />
                                     ))}
                                 </AnimatePresence>

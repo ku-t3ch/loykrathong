@@ -1,22 +1,16 @@
+import { AuthorState } from "@/interfaces/AuthorState";
 import { cdn } from "@/utils/cdn";
-import { Button, Upload } from "antd";
-import { CheckIcon, UploadCloudIcon, UploadIcon } from "lucide-react";
+import { CheckIcon, UploadIcon } from "lucide-react";
 import { NextPage } from "next";
-import { ReactEventHandler, useEffect, useRef, useState } from "react";
-
-interface onChangeData {
-    image: string | undefined;
-    name: string;
-    isImageUpload: string | undefined;
-}
-
+import { useEffect, useRef, useState } from "react";
 interface Props {
-    onChange: (data: onChangeData) => void;
-    value?: onChangeData;
+    onChange: (data: AuthorState) => void;
+    value?: AuthorState;
 }
 
 const KratongAuthor: NextPage<Props> = ({ onChange, value }) => {
     const input = useRef<HTMLInputElement>(null);
+
     const [Select, setSelect] = useState<string | undefined>(value?.image || "/avatar/1.webp");
     const [Image, setImage] = useState<string | undefined>(value?.isImageUpload || undefined);
     const [inputValue, setInputValue] = useState(value?.name || "");
@@ -99,7 +93,7 @@ const KratongAuthor: NextPage<Props> = ({ onChange, value }) => {
 
     return (
         <>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 w-full">
                 <div className="flex flex-wrap gap-3 sm:justify-around">
                     <div onClick={onUpload} className="flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
                         {!Image ? (
@@ -147,7 +141,7 @@ const KratongAuthor: NextPage<Props> = ({ onChange, value }) => {
                 </div>
                 <div className="mt-3 flex flex-col">
                     <div className="flex w-full gap-3 rounded-md bg-black/20 p-3 text-white">
-                        <div className="flex whitespace-nowrap">ชื่อตัวเอง :</div>
+                        <div className="flex whitespace-nowrap">ชื่อ :</div>
                         <input type="text" className="h-full w-full bg-transparent outline-none" value={inputValue} onChange={handleInputChange} maxLength={10} />
                     </div>
                     <div className="flex justify-end text-white">

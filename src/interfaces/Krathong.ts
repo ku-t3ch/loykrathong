@@ -10,4 +10,7 @@ export interface Krathong {
   authorName?: string;
   authorimageDefault?: string;
   authorimageUpload?: string;
+  authorName2?: string;
+  authorimageDefault2?: string;
+  authorimageUpload2?: string;
 }

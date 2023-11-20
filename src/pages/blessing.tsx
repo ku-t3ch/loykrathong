@@ -20,7 +20,7 @@ const Blessing: NextPage<Props> = () => {
         const res = await fetch(`${process.env.pocketbase}/api/collections/krathong/records?page=${page}&perPage=10&skipTotal=1&sort=-created2`)
         const records = await res.json()
         console.log(records);
-        
+
         if (records.items.length === 0) {
             setHasMore(false)
         }
@@ -48,9 +48,9 @@ const Blessing: NextPage<Props> = () => {
                 คำอธิษฐานทั้งหมด
             </div>
             <div className='flex flex-col gap-5 w-full mt-5'>
-                {Krathongs.map((item, i) => (
+                {Krathongs.length > 0 ? Krathongs.map((item, i) => (
                     <BlessingCoponent key={i} data={item} />
-                ))}
+                )) : <div className='text-gray-200 text-center my-2'>ไม่มีคำอธิษฐาน</div>}
             </div>
             {Isloading && <div className='text-white text-xl my-2'>กำลังโหลด...</div>}
             {HasMore && <button

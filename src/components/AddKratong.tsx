@@ -9,16 +9,8 @@ import InputBlessing from "./InputBlessing";
 import KratongAuthor from "./KratongAuthor";
 import toast from "react-hot-toast";
 import { api } from "@/utils/api";
-
-type KratongState = {
-    krathong: string | undefined;
-    blessing: string | undefined;
-    author: {
-        image: string | undefined;
-        name: string | undefined;
-        isImageUpload: string | undefined;
-    };
-};
+import { KratongState } from "@/interfaces/KratongState";
+import KratongAuthorWrapper from "./KratongAuthorWrapper";
 
 interface Props { }
 
@@ -31,7 +23,7 @@ const AddKratong: NextPage<Props> = () => {
     const [Kratong, setKratong] = useState<KratongState>({
         krathong: undefined,
         blessing: undefined,
-        author: {
+        author1: {
             image: undefined,
             name: undefined,
             isImageUpload: undefined,
@@ -63,7 +55,7 @@ const AddKratong: NextPage<Props> = () => {
         setKratong({
             krathong: undefined,
             blessing: undefined,
-            author: {
+            author1: {
                 image: undefined,
                 name: undefined,
                 isImageUpload: undefined,
@@ -73,7 +65,12 @@ const AddKratong: NextPage<Props> = () => {
     }
 
     const onCreateKratong = () => {
-        if (!Kratong.krathong || !Kratong.blessing || !Kratong.author.name || (!Kratong.author.image && !Kratong.author.isImageUpload)) {
+        if (!Kratong.krathong || !Kratong.blessing || !Kratong.author1.name || (!Kratong.author1.image && !Kratong.author1.isImageUpload)) {
+            toast.error("กรุณากรอกข้อมูลให้ครบถ้วน");
+            return;
+        }
+
+        if (Kratong.author2 && (!Kratong.author2.name || (!Kratong.author2.image && !Kratong.author2.isImageUpload))) {
             toast.error("กรุณากรอกข้อมูลให้ครบถ้วน");
             return;
         }
@@ -82,14 +79,22 @@ const AddKratong: NextPage<Props> = () => {
 
         const keyLoading = toast.loading("กำลังสร้างกระทง...");
 
+        console.log(Kratong);
+
+
         krathongApi.mutate({
             krathongImage: Kratong.krathong,
             blessing: Kratong.blessing,
-            author: {
-                name: Kratong.author.name,
-                avatar: Kratong.author.image,
-                avatarUpload: Kratong.author.isImageUpload,
-            }
+            author1: {
+                name: Kratong.author1.name,
+                avatar: Kratong.author1.image,
+                avatarUpload: Kratong.author1.isImageUpload,
+            },
+            author2: Kratong.author2 ? {
+                name: Kratong.author2.name || "", // provide a default value if name is undefined
+                avatar: Kratong.author2.image,
+                avatarUpload: Kratong.author2.isImageUpload,
+            } : undefined
         }, {
             onSuccess: () => {
                 toast.success("สร้างกระทงสำเร็จ", {
@@ -154,11 +159,18 @@ const AddKratong: NextPage<Props> = () => {
                                             value={Kratong.blessing}
                                         />
                                     ) : (
-                                        <KratongAuthor
+                                        <KratongAuthorWrapper
                                             onChange={(data) => {
-                                                setKratong((pre) => ({ ...pre, author: data }));
+                                                setKratong(pre => ({
+                                                    ...pre,
+                                                    author1: data?.author1,
+                                                    author2: data?.author2
+                                                }));
                                             }}
-                                            value={Kratong.author as any}
+                                            value={{
+                                                author1: Kratong.author1,
+                                                author2: Kratong.author2!,
+                                            }}
                                         />
                                     )}
 
