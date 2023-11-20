@@ -26,8 +26,8 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
         <motion.div
             onMouseEnter={() => setShowDetail(true)}
             onMouseLeave={() => setShowDetail(false)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            initial={{ opacity: 0, translateY: '-100px' }}
+            animate={{ opacity: 1, translateY: '0px' }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
             className={clsx("kratong-anim relative w-[10rem] h-[10rem] flex items-end", className)}

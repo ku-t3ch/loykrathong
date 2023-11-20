@@ -5,13 +5,12 @@ import { cdn } from "@/utils/cdn";
 import { pb } from "@/utils/pocketbase";
 import { css } from "@emotion/css";
 import styled from "@emotion/styled";
-import { Card, Form, Input } from "antd";
 import clsx from "clsx";
 import { AnimatePresence } from "framer-motion";
-import { MoveRightIcon } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import _ from "lodash";
+import { motion } from "framer-motion";
 
 interface WaveProps {
     animation: string;
@@ -93,13 +92,10 @@ export default function Home() {
 
     }, [])
 
-    console.log(Krathongs1.length, Krathongs2.length);
-
-
     return (
         <>
             <div className="relative min-h-screen">
-                <img src={cdn + "/moon.webp"} className="moon" alt="moon-image" />
+                <motion.img src={cdn + "/moon.webp"} className="moon" alt="moon-image" />
                 <div className="overflow-hidden">
                     <div className={clsx("relative min-h-[345px]")}>
                         <img className="absolute left-1/2 top-[8rem] z-10 flex w-[24rem] -translate-x-1/2 items-center drop-shadow-md" src={cdn + "/logo.png"} alt="" />

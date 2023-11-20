@@ -4,6 +4,7 @@ import fileNameToUrl from '@/utils/fileNameToUrl'
 import { Avatar, Divider } from 'antd'
 import { NextPage } from 'next'
 import { useMediaQuery } from 'usehooks-ts'
+import { motion } from 'framer-motion'
 
 interface Props {
     data: Krathong
@@ -15,8 +16,19 @@ const BlessingCoponent: NextPage<Props> = ({ data }) => {
     const avatar2 = fileNameToUrl(data?.authorimageUpload2!, data?.authorimageDefault2!, data!)
 
     return (
-        <div className='p-5 w-full h-[10rem] relative flex gap-5 rounded-md border bg-black/50 px-4 py-2 text-white '>
-            <img className='w-[6rem] drop-shadow-lg object-contain' src={cdn + "/" + data.image} alt="" />
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            className='p-5 w-full h-[10rem] relative flex gap-5 rounded-md border bg-black/50 px-4 py-2 text-white'>
+            <motion.img
+                initial={{ opacity: 0, translateY: '-100px' }}
+                animate={{ opacity: 1, translateY: '0px' }}
+                exit={{ opacity: 0 }}
+                className='w-[6rem] drop-shadow-lg object-contain' src={cdn + "/" + data.image} alt="" />
             <div className='flex flex-col gap-1 truncate py-2'>
                 <div className='flex gap-3'>
                     <div className='flex items-center gap-2 p-1 rounded-lg'>
@@ -42,7 +54,7 @@ const BlessingCoponent: NextPage<Props> = ({ data }) => {
                     minute: "numeric",
                 })}
             </div>
-        </div>
+        </motion.div>
     )
 }
 
