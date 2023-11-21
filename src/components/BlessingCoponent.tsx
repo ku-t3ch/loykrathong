@@ -23,7 +23,7 @@ const BlessingCoponent: NextPage<Props> = ({ data }) => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1 }}
-            className='p-5 w-full h-[10rem] relative flex gap-5 rounded-md border bg-black/50 px-4 py-2 text-white'>
+            className='p-5 w-full h-[10rem] relative flex gap-5 rounded-md border bg-black/50 md:px-10 px-5 py-2 text-white'>
             <motion.img
                 initial={{ opacity: 0, translateY: '-100px' }}
                 animate={{ opacity: 1, translateY: '0px' }}
@@ -45,7 +45,7 @@ const BlessingCoponent: NextPage<Props> = ({ data }) => {
                     {data?.blessing}
                 </div>
             </div>
-            <div className='absolute bottom-2 right-2 text-xs'>
+            <div className='absolute bottom-2 right-2 md:right-5 text-xs'>
                 {new Date(data?.created2!).toLocaleString("th-TH", {
                     year: "numeric",
                     month: "long",
