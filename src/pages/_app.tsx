@@ -1,19 +1,22 @@
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
+import SEO from "../next-seo.config";
 
 import { api } from "@/utils/api";
 
 import "@/styles/globals.css";
 import { ConfigProvider, theme } from "antd";
 import { Toaster, resolveValue } from "react-hot-toast";
-import { AlertCircleIcon, CheckIcon, Loader2Icon, XIcon } from "lucide-react";
+import { CheckIcon, Loader2Icon, XIcon } from "lucide-react";
+import { DefaultSeo } from "next-seo";
 
-const { defaultAlgorithm, darkAlgorithm } = theme;
+const { darkAlgorithm } = theme;
 
 const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps: { session, ...pageProps } }) => {
     return (
         <>
+            <DefaultSeo {...SEO} />
             <Toaster>{
                 (t) => <div className="rounded-lg bg-black/20 p-3 text-white backdrop-blur-md">
                     {t.type === "success" && <div className="flex gap-2">

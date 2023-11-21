@@ -1,7 +1,7 @@
 import { DefaultSeoProps } from "next-seo";
 
 export default {
-  title: "Loykrathong",
+  title: "Loykrathong 2566",
   description: "KU Loykrathong 2566",
   openGraph: {
     title: "Loykrathong",
