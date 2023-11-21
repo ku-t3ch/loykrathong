@@ -18,10 +18,9 @@ const hasBadWord = (text: string): boolean => {
     "ชาติชั่ว",
     "ถ่อย",
     "หัวควย",
-    "เย็ดแม่",
+    "โง่",
   ];
   return badWords.some((word) => text.includes(word));
 };
-
 
 export default hasBadWord;
