@@ -22,6 +22,7 @@ export const env = createEnv({
     ),
     POCKETBASE_EMAIL: z.string().email(),
     POCKETBASE_PASSWORD: z.string().min(1),
+    TURNSTILE_SECRET: z.string().min(1),
 
     // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
   },
@@ -47,6 +48,7 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     POCKETBASE_EMAIL: process.env.POCKETBASE_EMAIL,
     POCKETBASE_PASSWORD: process.env.POCKETBASE_PASSWORD,
+    TURNSTILE_SECRET: process.env.TURNSTILE_SECRET,
     // NEXT_PUBLIC_POCKETBASE_URL: process.env.NEXT_PUBLIC_POCKETBASE_URL,
   },
   /**

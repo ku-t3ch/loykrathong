@@ -2,6 +2,10 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import base64ToFile from "@/utils/base64ToFile";
+import requestIp from "request-ip";
+import { env } from "@/env.mjs";
+import axios from "axios";
+import FormData from "form-data";
 
 export const krathongRouter = createTRPCRouter({
   send: publicProcedure
@@ -9,6 +13,7 @@ export const krathongRouter = createTRPCRouter({
       z.object({
         krathongImage: z.string(),
         blessing: z.string(),
+        token: z.string(),
         author1: z.object({
           name: z.string(),
           avatarUpload: z.string().optional(),
@@ -28,6 +33,26 @@ export const krathongRouter = createTRPCRouter({
       const { blessing, krathongImage } = input;
 
       try {
+        const detectedIp = requestIp.getClientIp(ctx.req);
+        let formData = new FormData();
+        formData.append("secret", env.TURNSTILE_SECRET);
+        formData.append("response", input.token);
+        formData.append("remoteip", detectedIp!);
+
+        let { data } = await axios({
+          method: "post",
+          maxBodyLength: Infinity,
+          url: "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+          headers: {
+            ...formData.getHeaders(),
+          },
+          data: formData,
+        });
+
+        if (!data.success) {
+          throw new Error("คุณไม่ผ่านการตรวจสอบ");
+        }
+
         if (input.author2) {
           let file1 = null;
           let file2 = null;
@@ -107,7 +132,9 @@ export const krathongRouter = createTRPCRouter({
           }
         }
       } catch (error) {
-        console.log(error);
+        if (error instanceof Error && error.message === "คุณไม่ผ่านการตรวจสอบ") {
+            throw new Error("คุณไม่ผ่านการตรวจสอบ");
+        }
         throw new Error("Something went wrong");
       }
     }),

@@ -16,6 +16,7 @@ import { ZodError } from "zod";
 import { getServerAuthSession } from "@/server/auth";
 import { db } from "@/server/db";
 import { pb, pbAuth } from "@/utils/pocketbase";
+import { NextApiRequest } from "next";
 
 /**
  * 1. CONTEXT
@@ -27,6 +28,7 @@ import { pb, pbAuth } from "@/utils/pocketbase";
 
 interface CreateContextOptions {
   session: Session | null;
+  req: NextApiRequest;
 }
 
 /**
@@ -45,6 +47,7 @@ const createInnerTRPCContext = async (opts: CreateContextOptions) => {
     session: opts.session,
     db,
     pb: pbDB,
+    req: opts.req,
   };
 };
 
@@ -62,6 +65,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
 
   return createInnerTRPCContext({
     session,
+    req,
   });
 };
 
@@ -80,7 +84,8 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
       ...shape,
       data: {
         ...shape.data,
-        zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
+        zodError:
+          error.cause instanceof ZodError ? error.cause.flatten() : null,
       },
     };
   },

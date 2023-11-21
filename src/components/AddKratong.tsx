@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import { api } from "@/utils/api";
 import { KratongState } from "@/interfaces/KratongState";
 import KratongAuthorWrapper from "./KratongAuthorWrapper";
+import TurnstileWidget from "./TurnstileWidget";
 
 interface Props { }
 
@@ -19,6 +20,7 @@ const AddKratong: NextPage<Props> = () => {
     const [Step, setStep] = useState(0);
     const isMobile = useMediaQuery("(max-width: 640px)");
     const krathongApi = api.krathongRouter.send.useMutation();
+    const [KeyRecapcha, setKeyRecapcha] = useState<string>()
 
     const [Kratong, setKratong] = useState<KratongState>({
         krathong: undefined,
@@ -79,9 +81,6 @@ const AddKratong: NextPage<Props> = () => {
 
         const keyLoading = toast.loading("กำลังสร้างกระทง...");
 
-        console.log(Kratong);
-
-
         krathongApi.mutate({
             krathongImage: Kratong.krathong,
             blessing: Kratong.blessing,
@@ -94,7 +93,8 @@ const AddKratong: NextPage<Props> = () => {
                 name: Kratong.author2.name || "", // provide a default value if name is undefined
                 avatar: Kratong.author2.image,
                 avatarUpload: Kratong.author2.isImageUpload,
-            } : undefined
+            } : undefined,
+            token: KeyRecapcha!
         }, {
             onSuccess: () => {
                 toast.success("สร้างกระทงสำเร็จ", {
@@ -159,19 +159,24 @@ const AddKratong: NextPage<Props> = () => {
                                             value={Kratong.blessing}
                                         />
                                     ) : (
-                                        <KratongAuthorWrapper
-                                            onChange={(data) => {
-                                                setKratong(pre => ({
-                                                    ...pre,
-                                                    author1: data?.author1,
-                                                    author2: data?.author2
-                                                }));
-                                            }}
-                                            value={{
-                                                author1: Kratong.author1,
-                                                author2: Kratong.author2!,
-                                            }}
-                                        />
+                                        <div className="w-full flex flex-col items-center">
+                                            <KratongAuthorWrapper
+                                                onChange={(data) => {
+                                                    setKratong(pre => ({
+                                                        ...pre,
+                                                        author1: data?.author1,
+                                                        author2: data?.author2
+                                                    }));
+                                                }}
+                                                value={{
+                                                    author1: Kratong.author1,
+                                                    author2: Kratong.author2!,
+                                                }}
+                                            />
+                                            <TurnstileWidget onVerify={(c) => {
+                                                setKeyRecapcha(c);
+                                            }} />
+                                        </div>
                                     )}
 
                                     <div className="flex justify-center gap-5">
