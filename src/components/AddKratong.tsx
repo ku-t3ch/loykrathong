@@ -12,6 +12,7 @@ import { api } from "@/utils/api";
 import { KratongState } from "@/interfaces/KratongState";
 import KratongAuthorWrapper from "./KratongAuthorWrapper";
 import TurnstileWidget from "./TurnstileWidget";
+import hasBadWord from "@/utils/hasBadWord";
 
 interface Props { }
 
@@ -74,6 +75,11 @@ const AddKratong: NextPage<Props> = () => {
 
         if (Kratong.author2 && (!Kratong.author2.name || (!Kratong.author2.image && !Kratong.author2.isImageUpload))) {
             toast.error("กรุณากรอกข้อมูลให้ครบถ้วน");
+            return;
+        }
+
+        if (hasBadWord(Kratong.blessing)) {
+            toast.error("คำอธิษฐานมีคำหยาบคาย");
             return;
         }
 
