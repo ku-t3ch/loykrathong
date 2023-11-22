@@ -9,12 +9,8 @@ WORKDIR /app
 COPY prisma ./
 
 # Install dependencies based on the preferred package manager
-COPY package.json yarn.lock ./
 
-RUN if [ -f yarn.lock ]; then yarn --frozen-lockfile; fi
-RUN if [ -f package-lock.json ]; then npm ci; fi
-RUN if [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; fi
-
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml\* ./
 
 ##### BUILDER
 
