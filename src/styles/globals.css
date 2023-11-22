@@ -1,3 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  font-family: "Noto Sans Thai", sans-serif;
+}
+
+@keyframes animation-hmfifo {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 100% 0px;
+  }
+}
+
+.moon {
+  position: absolute;
+  height: 24rem;
+  width: 24rem;
+  top: -12.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.container-event-logo {
+  position: relative;
+  min-height: 21.25rem;
+  background-color: #000;
+}
+
+.kratong-anim {
+  /* animation: shake 7s infinite; */
+  animation: 6s ease-in-out 0ms infinite normal none running shake;
+  transform-origin: center bottom;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(5px) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(5px) rotate(2deg);
+  }
+}
+
+@keyframes floating1 {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes floating2 {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+body {
+  background: linear-gradient(#017973 400px, #003f51 630px, rgb(30, 28, 109));
+  min-height: 100vh;
+}
+
+.button-md {
+  @apply flex cursor-pointer select-none rounded-full border bg-black/50 px-4 py-2 text-white hover:bg-black;
+}
+
+.button-sm {
+  @apply flex cursor-pointer select-none rounded-full border bg-black/50 px-3 py-1 text-sm text-white hover:bg-black;
+}
+
+.button-lg {
+  @apply flex cursor-pointer select-none rounded-full border bg-black/50 px-5 py-3 text-lg text-white hover:bg-black;
+}
+
+.button-xl {
+  @apply flex cursor-pointer select-none rounded-full border bg-black/50 px-6 py-3 text-xl text-white hover:bg-black;
+}
