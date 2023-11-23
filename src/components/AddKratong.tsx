@@ -1,12 +1,11 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Modal, Steps } from "antd";
+import { Steps } from "antd";
 import { MoveLeftIcon, MoveRightIcon, XIcon } from "lucide-react";
 import { NextPage } from "next";
 import { Fragment, useState } from "react";
 import SelectKratong from "./SelectKratong";
-import { useLocalStorage, useMediaQuery } from "usehooks-ts";
+import { useMediaQuery } from "usehooks-ts";
 import InputBlessing from "./InputBlessing";
-import KratongAuthor from "./KratongAuthor";
 import toast from "react-hot-toast";
 import { api } from "@/utils/api";
 import { KratongState } from "@/interfaces/KratongState";
@@ -78,20 +77,20 @@ const AddKratong: NextPage<Props> = () => {
             return;
         }
 
-        if (hasBadWord(Kratong.blessing)) {
-            toast.error("คำอธิษฐานมีคำหยาบคาย");
-            return;
-        }
+        // if (hasBadWord(Kratong.blessing)) {
+        //     toast.error("คำอธิษฐานมีคำหยาบคาย");
+        //     return;
+        // }
 
-        if (Kratong.author1.name && hasBadWord(Kratong.author1.name)) {
-            toast.error("ชื่อผู้สร้างมีคำหยาบคาย");
-            return;
-        }
+        // if (Kratong.author1.name && hasBadWord(Kratong.author1.name)) {
+        //     toast.error("ชื่อผู้สร้างมีคำหยาบคาย");
+        //     return;
+        // }
 
-        if (Kratong.author2 && Kratong.author2.name && hasBadWord(Kratong.author2.name)) {
-            toast.error("ชื่อผู้สร้างมีคำหยาบคาย");
-            return;
-        }
+        // if (Kratong.author2 && Kratong.author2.name && hasBadWord(Kratong.author2.name)) {
+        //     toast.error("ชื่อผู้สร้างมีคำหยาบคาย");
+        //     return;
+        // }
 
         if (krathongApi.isLoading) return;
 
