@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import _ from "lodash";
 import { motion } from "framer-motion";
+import Footer from "@/components/Footer";
 
 interface WaveProps {
     animation: string;
@@ -142,7 +143,7 @@ export default function Home() {
                         <div className="absolute left-0 right-0 top-[15rem] z-10 mx-auto flex max-w-lg flex-col items-center justify-center gap-10">
                             <AddKratong />
                             <Link href="/blessing" className="button-sm w-fit">คำอธิษฐานทั้งหมด</Link>
-                            <div className="text-white">Copyright © 2023 KU Tech</div>
+                            <Footer />
                         </div>
                     </div>
                 </div>
