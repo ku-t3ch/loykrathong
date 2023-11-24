@@ -5,7 +5,7 @@ export default {
   description: "KU Loykrathong 2566",
   openGraph: {
     title: "Loykrathong",
-    url: "http://kutech.club/loykrathong",
+    url: "http://loykrathong.kutech.club",
     type: "website",
     description: "KU Loykrathong 2566",
     images: [
