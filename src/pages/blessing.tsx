@@ -1,4 +1,5 @@
 import BlessingCoponent from '@/components/BlessingCoponent'
+import Footer from '@/components/Footer'
 import { Krathong } from '@/interfaces/Krathong'
 import { cdn } from '@/utils/cdn'
 import { ArrowLeftIcon } from 'lucide-react'
@@ -59,7 +60,9 @@ const Blessing: NextPage<Props> = () => {
             >
                 Load More
             </button>}
-            <div className="text-white my-5">Copyright © 2023 KU Tech</div>
+            <div className="my-5">
+                <Footer />
+            </div>
         </div>
     )
 }
