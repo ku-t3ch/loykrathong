@@ -77,20 +77,20 @@ const AddKratong: NextPage<Props> = () => {
             return;
         }
 
-        // if (hasBadWord(Kratong.blessing)) {
-        //     toast.error("คำอธิษฐานมีคำหยาบคาย");
-        //     return;
-        // }
+        if (hasBadWord(Kratong.blessing)) {
+            toast.error("คำอธิษฐานมีคำหยาบคาย");
+            return;
+        }
 
-        // if (Kratong.author1.name && hasBadWord(Kratong.author1.name)) {
-        //     toast.error("ชื่อผู้สร้างมีคำหยาบคาย");
-        //     return;
-        // }
+        if (Kratong.author1.name && hasBadWord(Kratong.author1.name)) {
+            toast.error("ชื่อผู้สร้างมีคำหยาบคาย");
+            return;
+        }
 
-        // if (Kratong.author2 && Kratong.author2.name && hasBadWord(Kratong.author2.name)) {
-        //     toast.error("ชื่อผู้สร้างมีคำหยาบคาย");
-        //     return;
-        // }
+        if (Kratong.author2 && Kratong.author2.name && hasBadWord(Kratong.author2.name)) {
+            toast.error("ชื่อผู้สร้างมีคำหยาบคาย");
+            return;
+        }
 
         if (krathongApi.isLoading) return;
 
