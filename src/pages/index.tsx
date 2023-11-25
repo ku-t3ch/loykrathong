@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import _ from "lodash";
 import { motion } from "framer-motion";
 import Footer from "@/components/Footer";
+import axios from "axios";
 
 interface WaveProps {
     animation: string;
@@ -61,11 +62,9 @@ export default function Home() {
     const [KeyRerender, setKeyRerender] = useState(0)
 
     const getData = async () => {
-        pb.autoCancellation(false)
-        const records = await pb.collection('krathong').getFullList<Krathong>({
-            sort: '-created',
-            perPage: 10,
-        });
+        const { data } = await axios.get("https://pocketbase.sornchaithedev.com/api/collections/krathong/records?page=1&perPage=10&skipTotal=1&sort=-created")
+
+        const records = data.items as Krathong[]
 
         const per = Math.ceil(records.length / 2) > 5 ? 5 : Math.ceil(records.length / 2)
 
