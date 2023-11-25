@@ -30,7 +30,7 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
             animate={{ opacity: 1, translateY: '0px' }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1 }}
-            className={clsx("kratong-anim relative w-[10rem] h-[10rem] flex items-end", className)}
+            className={clsx("kratong-anim relative w-[10rem] h-fit flex items-end", className)}
         >
             {ShowDetail && (
                 <div className="absolute bottom-[7rem] whitespace-normal truncate z-50 w-[10rem] -translate-y-5 rounded-lg border-2 border-gray-400 bg-white/80 p-2 text-xs">
