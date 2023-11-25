@@ -140,7 +140,7 @@ export default function Home() {
                                 </AnimatePresence>
                             </div>
                         </div>
-                        <div className="absolute left-0 right-0 top-[15rem] z-10 mx-auto flex max-w-lg flex-col items-center justify-center gap-10">
+                        <div className="absolute left-0 right-0 top-[14rem] z-10 mx-auto flex max-w-lg flex-col items-center justify-center gap-10">
                             <AddKratong />
                             <Link href="/blessing" className="button-sm w-fit">คำอธิษฐานทั้งหมด</Link>
                             <Footer />
