@@ -107,7 +107,7 @@ export default function Home() {
                             <div
                                 key={KeyRerender}
                                 className={clsx(
-                                    "absolute bottom-[8.5rem] z-10 flex gap-[10rem]",
+                                    "absolute bottom-[8.5rem] z-10 flex gap-[10rem] items-end",
                                     css`
                     transform: translateX(0%);
                     animation: ${8 * Krathongs1.length}s linear 0s infinite normal none running floating1;
@@ -126,7 +126,7 @@ export default function Home() {
                             <div
                                 key={KeyRerender}
                                 className={clsx(
-                                    "absolute bottom-[8.5rem] z-10 flex gap-[12rem]",
+                                    "absolute bottom-[8.5rem] z-10 flex gap-[12rem] items-end",
                                     css`
                     animation: ${10 * Krathongs2.length}s linear 0s infinite normal none running floating2;
                   `,
