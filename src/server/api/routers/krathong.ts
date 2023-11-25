@@ -135,7 +135,7 @@ export const krathongRouter = createTRPCRouter({
         if (error instanceof Error && error.message === "คุณไม่ผ่านการตรวจสอบ") {
             throw new Error("คุณไม่ผ่านการตรวจสอบ");
         }
-        throw new Error("Something went wrong");
+        throw new Error("พระแม่คงคาไม่รับพรของท่าน กรุณาลองใหม่อีกครั้ง");
       }
     }),
 });
