@@ -15,8 +15,8 @@ const config = {
   },
   env: {
     cdn: "https://s3.tech.nisit.ku.ac.th/assets/loykrathong/2566",
-    pocketbase: process.env.NEXT_PUBLIC_POCKETBASE_URL || '',
-    turnstileSiteKey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '',
+    NEXT_PUBLIC_POCKETBASE_URL: process.env.NEXT_PUBLIC_POCKETBASE_URL || '',
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '',
   },
 };
 
