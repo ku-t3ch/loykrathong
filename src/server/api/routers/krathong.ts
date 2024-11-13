@@ -53,16 +53,18 @@ export const krathongRouter = createTRPCRouter({
           throw new Error("คุณไม่ผ่านการตรวจสอบ");
         }
 
+        console.log(input)
         if (input.author2) {
           let file1 = null;
           let file2 = null;
-
           if (input.author1.avatarUpload) {
-            file1 = base64ToFile(input.author1.avatarUpload, "krathong1.png");
+            // file1 = base64ToFile(input.author1.avatarUpload, "krathong1.png");
+            file1 = input.author1.avatarUpload
           }
 
           if (input.author2.avatarUpload) {
-            file2 = base64ToFile(input.author2.avatarUpload, "krathong2.png");
+            // file2 = base64ToFile(input.author2.avatarUpload, "krathong2.png");
+            file2 = input.author2.avatarUpload
           }
 
           if (file1 && file2) {
