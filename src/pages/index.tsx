@@ -98,7 +98,7 @@ export default function Home() {
                 <motion.img src={cdn + "/moon.webp"} className="moon" alt="moon-image" />
                 <div className="overflow-hidden">
                     <div className={clsx("relative min-h-[345px] z-0")}>
-                        <img className="absolute left-1/2 top-[8rem] z-10 flex w-[24rem] -translate-x-1/2 items-center drop-shadow-md" src={cdn + "/logo.png"} alt="" />
+                        <img className="absolute left-1/2 top-[8rem] z-10 flex w-[24rem] -translate-x-1/2 items-center drop-shadow-md" src="/logo-2024.svg" alt="" />
                         <Background className={clsx("absolute bottom-0 left-0 right-0 z-0 h-full min-w-[5298px]")}></Background>
                     </div>
                     <div className={clsx("relative min-h-[60vh]")}>

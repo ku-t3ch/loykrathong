@@ -44,7 +44,7 @@ const Blessing: NextPage<Props> = () => {
                     <ArrowLeftIcon size={20} /> กลับ
                 </button>
             </div>
-            <img className='max-w-sm w-full' src={cdn + "/logo.png"} alt="" />
+            <img className='max-w-sm w-full' src="/logo-2024.svg" alt="" />
             <div className='text-2xl text-white w-full'>
                 คำอธิษฐานทั้งหมด
             </div>
