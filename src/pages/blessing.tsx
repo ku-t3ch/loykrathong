@@ -18,7 +18,7 @@ const Blessing: NextPage<Props> = () => {
 
     const getData = async () => {
         setIsloading(true)
-        const res = await fetch("https://pocketbase.tech.nisit.ku.ac.th/api/collections/krathong/records?page=${page}&perPage=10&skipTotal=1&sort=-created2")
+        const res = await fetch(`https://pocketbase.tech.nisit.ku.ac.th/api/collections/krathong/records?page=${page}&perPage=10&skipTotal=1&sort=-created2`)
         const records = await res.json()
         console.log(records);
 
