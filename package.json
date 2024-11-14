@@ -29,6 +29,7 @@
     "@trpc/react-query": "^10.37.1",
     "@trpc/server": "^10.37.1",
     "antd": "^5.11.1",
+    "aws-sdk": "^2.1692.0",
     "axios": "^1.6.2",
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.5",
