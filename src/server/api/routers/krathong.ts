@@ -53,18 +53,17 @@ export const krathongRouter = createTRPCRouter({
           throw new Error("คุณไม่ผ่านการตรวจสอบ");
         }
 
-        console.log(input)
         if (input.author2) {
           let file1 = null;
           let file2 = null;
           if (input.author1.avatarUpload) {
             // file1 = base64ToFile(input.author1.avatarUpload, "krathong1.png");
-            file1 = input.author1.avatarUpload
+            file1 = input.author1.avatarUpload;
           }
 
           if (input.author2.avatarUpload) {
             // file2 = base64ToFile(input.author2.avatarUpload, "krathong2.png");
-            file2 = input.author2.avatarUpload
+            file2 = input.author2.avatarUpload;
           }
 
           if (file1 && file2) {
@@ -112,7 +111,8 @@ export const krathongRouter = createTRPCRouter({
           let file = null;
 
           if (input.author1.avatarUpload) {
-            file = base64ToFile(input.author1.avatarUpload, "krathong1.jpg");
+            // file = base64ToFile(input.author1.avatarUpload, "krathong1.jpg");
+            file = input.author1.avatarUpload;
           }
 
           if (file) {
@@ -134,8 +134,11 @@ export const krathongRouter = createTRPCRouter({
           }
         }
       } catch (error) {
-        if (error instanceof Error && error.message === "คุณไม่ผ่านการตรวจสอบ") {
-            throw new Error("คุณไม่ผ่านการตรวจสอบ");
+        if (
+          error instanceof Error &&
+          error.message === "คุณไม่ผ่านการตรวจสอบ"
+        ) {
+          throw new Error("คุณไม่ผ่านการตรวจสอบ");
         }
         throw new Error("พระแม่คงคาไม่รับพรของท่าน กรุณาลองใหม่อีกครั้ง");
       }
