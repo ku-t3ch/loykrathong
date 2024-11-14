@@ -1,30 +1,79 @@
 import { z } from "zod";
-
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import base64ToFile from "@/utils/base64ToFile";
 import requestIp from "request-ip";
 import { env } from "@/env.mjs";
 import axios from "axios";
 import FormData from "form-data";
-import AWS from "aws-sdk";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
+// S3 Configuration
+const s3Client = new S3Client({
+  region: process.env.AWS_REGION!,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  },
+  endpoint: `${process.env.S3_BUCKET_BASE_URL}`,
+  forcePathStyle: true,
 });
 
-const uploadAvatar = async (fileBase64: string, fileName: string) => {
-  const buffer = Buffer.from(fileBase64.split(",")[1]!, "base64");
-  const s3Params = {
-    Bucket: process.env.S3_BUCKET_NAME!,
-    Key: fileName,
-    Body: buffer,
-    ContentType: "image/png",
-    ACL: "public-read",
-  };
-  const s3Result = await s3.upload(s3Params).promise();
-  return `https://${process.env.S3_BUCKET_BASE_URL}/${fileName}`;
+// Input validation schema
+const authorSchema = z.object({
+  name: z.string(),
+  avatarUpload: z.string().optional(),
+  avatar: z.string().optional(),
+});
+
+// Helper functions
+const generateFileName = (suffix: string): string => {
+  const timestamp = Date.now();
+  const randomSuffix = Math.floor(Math.random() * 1000);
+  return `${timestamp}-${randomSuffix}-${suffix}.png`;
+};
+
+const uploadAvatar = async (fileBase64: string, fileName: string): Promise<string> => {
+  try {
+    const buffer = Buffer.from(fileBase64.split(",")[1]!, "base64");
+    
+    console.log('Attempting to upload:', {
+      fileName,
+      bucketName: process.env.S3_BUCKET_NAME,
+      endpoint: process.env.S3_BUCKET_BASE_URL
+    });
+
+    const uploadCommand = new PutObjectCommand({
+      Bucket: process.env.S3_BUCKET_NAME!,
+      Key: fileName,
+      Body: buffer,
+      ContentType: "image/png",
+      ACL: "public-read",
+    });
+
+    await s3Client.send(uploadCommand);
+    return `${process.env.S3_BUCKET_BASE_URL}/${process.env.S3_BUCKET_NAME}/${fileName}`;
+  } catch (error) {
+    console.error('S3 Upload Error:', error);
+    throw error;
+  }
+};
+
+const verifyTurnstile = async (token: string, ip: string | null): Promise<void> => {
+  const formData = new FormData();
+  formData.append("secret", env.TURNSTILE_SECRET);
+  formData.append("response", token);
+  formData.append("remoteip", ip ?? "");
+
+  const { data } = await axios({
+    method: "post",
+    maxBodyLength: Infinity,
+    url: "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+    headers: { ...formData.getHeaders() },
+    data: formData,
+  });
+
+  if (!data.success) {
+    throw new Error("คุณไม่ผ่านการตรวจสอบ");
+  }
 };
 
 export const krathongRouter = createTRPCRouter({
@@ -34,148 +83,70 @@ export const krathongRouter = createTRPCRouter({
         krathongImage: z.string(),
         blessing: z.string(),
         token: z.string(),
-        author1: z.object({
-          name: z.string(),
-          avatarUpload: z.string().optional(),
-          avatar: z.string().optional(),
-        }),
-        author2: z
-          .object({
-            name: z.string(),
-            avatarUpload: z.string().optional(),
-            avatar: z.string().optional(),
-          })
-          .optional(),
-      }),
+        author1: authorSchema,
+        author2: authorSchema.optional(),
+      })
     )
     .mutation(async ({ input, ctx }) => {
       const { pb } = ctx;
-      const { blessing, krathongImage } = input;
+      const { blessing, krathongImage, author1, author2 } = input;
 
       try {
-        const detectedIp = requestIp.getClientIp(ctx.req);
-        let formData = new FormData();
-        formData.append("secret", env.TURNSTILE_SECRET);
-        formData.append("response", input.token);
-        formData.append("remoteip", detectedIp!);
-
-        let { data } = await axios({
-          method: "post",
-          maxBodyLength: Infinity,
-          url: "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-          headers: {
-            ...formData.getHeaders(),
-          },
-          data: formData,
-        });
-
-        if (!data.success) {
-          throw new Error("คุณไม่ผ่านการตรวจสอบ");
+        // Verify AWS configuration
+        if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY || 
+            !process.env.AWS_REGION || !process.env.S3_BUCKET_NAME) {
+          throw new Error("AWS configuration is incomplete");
         }
 
-        const timestamp = Date.now();
-        const randomSuffix = Math.floor(Math.random() * 1000);
+        // Verify Turnstile
+        await verifyTurnstile(input.token, requestIp.getClientIp(ctx.req));
 
-        const fileName1 = `${timestamp}-${randomSuffix}-author1`;
-        const fileName2 = `${timestamp}-${randomSuffix}-author2`;
+        // Base data for krathong record
+        const baseData = {
+          blessing,
+          image: krathongImage,
+          authorName: author1.name,
+          created2: new Date().toISOString(),
+        };
 
-        if (input.author2) {
-          let file1: string | null = null;
-          let file2: string | null = null;
+        // Handle avatar uploads and create record
+        if (author2) {
+          // Two authors case
+          const [file1Url, file2Url] = await Promise.all([
+            author1.avatarUpload ? uploadAvatar(author1.avatarUpload, generateFileName("author1")) : null,
+            author2.avatarUpload ? uploadAvatar(author2.avatarUpload, generateFileName("author2")) : null,
+          ]);
 
-          // Handling first avatar upload
-          if (input.author1.avatarUpload) {
-            file1 = input.author1.avatarUpload;
-          }
-
-          // Handling second avatar upload
-          if (input.author2.avatarUpload) {
-            file2 = input.author2.avatarUpload;
-          }
-
-          if (file1 && file2) {
-            // Construct the file URLs
-            const file1Url = await uploadAvatar(file1, fileName1);
-            const file2Url = await uploadAvatar(file2, fileName2);
-
-            await pb.collection("krathong").create({
-              blessing,
-              image: krathongImage,
-              authorName: input.author1.name,
-              authorimageUpload: file1Url,
-              authorName2: input.author2.name,
-              authorimageUpload2: file2Url,
-              created2: new Date().toISOString(),
-            });
-          } else if (file1 && !file2) {
-            const file1Url = await uploadAvatar(file1, fileName1);
-
-            await pb.collection("krathong").create({
-              blessing,
-              image: krathongImage,
-              authorName: input.author1.name,
-              authorimageUpload: file1Url,
-              authorName2: input.author2.name,
-              authorimageDefault2: input.author2.avatar,
-              created2: new Date().toISOString(),
-            });
-          } else if (!file1 && file2) {
-            const file2Url = await uploadAvatar(file2, fileName2);
-            await pb.collection("krathong").create({
-              blessing,
-              image: krathongImage,
-              authorName: input.author1.name,
-              authorimageDefault: input.author1.avatar,
-              authorName2: input.author2.name,
-              authorimageUpload2: file2Url,
-              created2: new Date().toISOString(),
-            });
-          } else {
-            await pb.collection("krathong").create({
-              blessing,
-              image: krathongImage,
-              authorName: input.author1.name,
-              authorimageDefault: input.author1.avatar,
-              authorName2: input.author2.name,
-              authorimageDefault2: input.author2.avatar,
-              created2: new Date().toISOString(),
-            });
-          }
+          await pb.collection("krathong").create({
+            ...baseData,
+            authorName2: author2.name,
+            ...(file1Url ? { authorimageUpload: file1Url } : { authorimageDefault: author1.avatar }),
+            ...(file2Url ? { authorimageUpload2: file2Url } : { authorimageDefault2: author2.avatar }),
+          });
         } else {
-          let file1: string | null = null;
+          // Single author case
+          const fileUrl = author1.avatarUpload 
+            ? await uploadAvatar(author1.avatarUpload, generateFileName("author1"))
+            : null;
 
-          if (input.author1.avatarUpload) {
-            file1 = input.author1.avatarUpload;
-          }
-
-          if (file1) {
-            const fileUrl = await uploadAvatar(file1, fileName1);
-            await pb.collection("krathong").create({
-              blessing,
-              image: krathongImage,
-              authorName: input.author1.name,
-              authorimageUpload: fileUrl,
-              created2: new Date().toISOString(),
-            });
-          } else {
-            await pb.collection("krathong").create({
-              blessing,
-              image: krathongImage,
-              authorName: input.author1.name,
-              authorimageDefault: input.author1.avatar,
-              created2: new Date().toISOString(),
-            });
-          }
+          await pb.collection("krathong").create({
+            ...baseData,
+            ...(fileUrl ? { authorimageUpload: fileUrl } : { authorimageDefault: author1.avatar }),
+          });
         }
+
+        return { success: true };
       } catch (error) {
-        console.error('Error occurred during the process:', error);
-        if (
-          error instanceof Error &&
-          error.message === "คุณไม่ผ่านการตรวจสอบ"
-        ) {
-          throw new Error("คุณไม่ผ่านการตรวจสอบ");
+        console.error('Operation failed:', error);
+        
+        if (error instanceof Error) {
+          if (error.message === "คุณไม่ผ่านการตรวจสอบ") throw error;
+          if (error.message.includes('AWS')) {
+            throw new Error("ไม่สามารถอัพโหลดรูปภาพได้ กรุณาลองใหม่อีกครั้ง");
+          }
         }
-        throw new Error("พระแม่คงคาไม่รับพรของท่าน กรุณาลองใหม่อีกครั้ง");
+        
+        throw new Error("เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ กรุณาลองใหม่อีกครั้ง");
       }
     }),
 });
