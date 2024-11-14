@@ -12,8 +12,8 @@ interface Props {
 
 const BlessingCoponent: NextPage<Props> = ({ data }) => {
     const isMobile = useMediaQuery('(max-width: 640px)')
-    const avatar1 = fileNameToUrl(data?.authorimageUpload!, data?.authorimageDefault!, data!)
-    const avatar2 = fileNameToUrl(data?.authorimageUpload2!, data?.authorimageDefault2!, data!)
+    const avatar1 = data?.authorimageUpload || data?.authorimageDefault
+    const avatar2 = data?.authorimageUpload2 || data?.authorimageDefault2
 
     return (
         <motion.div
