@@ -36,6 +36,7 @@ export const env = createEnv({
     // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
     // NEXT_PUBLIC_POCKETBASE_URL: z.string().url(),
     // NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().min(1),
+    NEXT_PUBLIC_BASE_URL: z.string().min(1),
   },
 
   /**
@@ -52,6 +53,7 @@ export const env = createEnv({
     TURNSTILE_SECRET: process.env.TURNSTILE_SECRET,
     // NEXT_PUBLIC_POCKETBASE_URL: process.env.NEXT_PUBLIC_POCKETBASE_URL,
     // NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

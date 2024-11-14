@@ -5,12 +5,12 @@ export default {
   description: "KU Loykrathong 2567",
   openGraph: {
     title: "Loykrathong",
-    url: "http://loykrathong.kutech.club",
+    url: "https://festival.tech.nisit.ku.ac.th/loykrathong",
     type: "website",
     description: "KU Loykrathong 2567",
     images: [
       {
-        url: "https://s3.tech.nisit.ku.ac.th/assets/loykrathong/2566/og-image.png",
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/loykrathong/loykrathong-seo.jpg`,
         width: 1600,
         height: 900,
         alt: "Loykrathong",

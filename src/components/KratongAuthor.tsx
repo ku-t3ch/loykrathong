@@ -106,7 +106,7 @@ const KratongAuthor: NextPage<Props> = ({ onChange, value }) => {
                         )}
                     </div>
                     <div onClick={() => onSelect("/avatar/1.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
-                        <img className="object-cover" src={cdn + "/avatar/1.webp"} alt="" />
+                        <img className="object-cover" src={"/avatar/1.webp"} alt="" />
 
                         {Select === "/avatar/1.webp" && (
                             <div className="absolute bottom-1 right-1 flex h-[1rem] w-[1rem] items-center justify-center rounded-full bg-green-500 md:h-[2rem] md:w-[2rem]">
@@ -115,7 +115,7 @@ const KratongAuthor: NextPage<Props> = ({ onChange, value }) => {
                         )}
                     </div>
                     <div onClick={() => onSelect("/avatar/2.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
-                        <img className="object-cover" src={cdn + "/avatar/2.webp"} alt="" />
+                        <img className="object-cover" src={"/avatar/2.webp"} alt="" />
                         {Select === "/avatar/2.webp" && (
                             <div className="absolute bottom-1 right-1 flex h-[1rem] w-[1rem] items-center justify-center rounded-full bg-green-500 md:h-[2rem] md:w-[2rem]">
                                 <CheckIcon />
@@ -123,7 +123,7 @@ const KratongAuthor: NextPage<Props> = ({ onChange, value }) => {
                         )}
                     </div>
                     <div onClick={() => onSelect("/avatar/3.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
-                        <img className="object-cover" src={cdn + "/avatar/3.webp"} alt="" />
+                        <img className="object-cover" src={"/avatar/3.webp"} alt="" />
                         {Select === "/avatar/3.webp" && (
                             <div className="absolute bottom-1 right-1 flex h-[1rem] w-[1rem] items-center justify-center rounded-full bg-green-500 md:h-[2rem] md:w-[2rem]">
                                 <CheckIcon />
@@ -131,7 +131,7 @@ const KratongAuthor: NextPage<Props> = ({ onChange, value }) => {
                         )}
                     </div>
                     <div onClick={() => onSelect("/avatar/4.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
-                        <img className="object-cover" src={cdn + "/avatar/4.webp"} alt="" />
+                        <img className="object-cover" src={"/avatar/4.webp"} alt="" />
                         {Select === "/avatar/4.webp" && (
                             <div className="absolute bottom-1 right-1 flex h-[1rem] w-[1rem] items-center justify-center rounded-full bg-green-500 md:h-[2rem] md:w-[2rem]">
                                 <CheckIcon />
