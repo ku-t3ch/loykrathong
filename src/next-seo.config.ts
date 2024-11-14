@@ -1,7 +1,7 @@
 import { DefaultSeoProps } from "next-seo";
 
 export default {
-  title: "Loykrathong 2567",
+  title: "KU Loykrathong 2567",
   description: "KU Loykrathong 2567",
   openGraph: {
     title: "Loykrathong",
@@ -10,7 +10,7 @@ export default {
     description: "KU Loykrathong 2567",
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_BASE_URL}/loykrathong/loykrathong-seo.jpg`,
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/assets/loykrathong-seo.jpg`,
         width: 1600,
         height: 900,
         alt: "Loykrathong",
