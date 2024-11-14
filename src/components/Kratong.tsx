@@ -18,8 +18,8 @@ interface Props {
 const Kratong: NextPage<Props> = ({ className, data }) => {
     const [ShowDetail, setShowDetail] = useState(false);
 
-    const avatar1 = data?.authorimageUpload ?? data?.authorimageDefault
-    const avatar2 = data?.authorimageUpload2 ?? data?.authorimageDefault2
+    const avatar1 = data?.authorimageUpload || data?.authorimageDefault
+    const avatar2 = data?.authorimageUpload2 || data?.authorimageDefault2
     // const avatar2 = fileNameToUrl(data?.authorimageUpload2!, data?.authorimageDefault2!, data!)
 
     return (
