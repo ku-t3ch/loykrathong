@@ -168,6 +168,7 @@ export const krathongRouter = createTRPCRouter({
           }
         }
       } catch (error) {
+        console.error('Error occurred during the process:', error);
         if (
           error instanceof Error &&
           error.message === "คุณไม่ผ่านการตรวจสอบ"
