@@ -14,6 +14,19 @@ const s3 = new AWS.S3({
   region: process.env.AWS_REGION,
 });
 
+const uploadAvatar = async (fileBase64: string, fileName: string) => {
+  const buffer = Buffer.from(fileBase64.split(",")[1]!, "base64");
+  const s3Params = {
+    Bucket: process.env.S3_BUCKET_NAME!,
+    Key: fileName,
+    Body: buffer,
+    ContentType: "image/png",
+    ACL: "public-read",
+  };
+  const s3Result = await s3.upload(s3Params).promise();
+  return `https://${process.env.S3_BUCKET_BASE_URL}/${fileName}`;
+};
+
 export const krathongRouter = createTRPCRouter({
   send: publicProcedure
     .input(
@@ -60,54 +73,30 @@ export const krathongRouter = createTRPCRouter({
           throw new Error("คุณไม่ผ่านการตรวจสอบ");
         }
 
-        const timestamp = Date.now(); 
-        const randomSuffix = Math.floor(Math.random() * 1000); 
+        const timestamp = Date.now();
+        const randomSuffix = Math.floor(Math.random() * 1000);
 
-        const fileName1 = `${timestamp}-${randomSuffix}-author1.png`; 
-        const fileName2 = `${timestamp}-${randomSuffix}-author2.png`; 
+        const fileName1 = `${timestamp}-${randomSuffix}-author1`;
+        const fileName2 = `${timestamp}-${randomSuffix}-author2`;
 
         if (input.author2) {
-          let buffer1 = null;
-          let buffer2 = null;
-          let file1Url = null;
-          let file2Url = null;
+          let file1: string | null = null;
+          let file2: string | null = null;
 
           // Handling first avatar upload
           if (input.author1.avatarUpload) {
-            const file1 = input.author1.avatarUpload;
-            buffer1 = Buffer.from(file1.split(",")[1]!, "base64");
+            file1 = input.author1.avatarUpload;
           }
 
           // Handling second avatar upload
           if (input.author2.avatarUpload) {
-            const file2 = input.author2.avatarUpload;
-            buffer2 = Buffer.from(file2.split(",")[1]!, "base64");
+            file2 = input.author2.avatarUpload;
           }
 
-          if (buffer1 && buffer2) {
-            const s3Params1 = {
-              Bucket: process.env.S3_BUCKET_NAME!,
-              Key: fileName1,
-              Body: buffer1,
-              ContentType: "image/png",
-              ACL: "public-read",
-            };
-
-            // S3 parameters for the second file
-            const s3Params2 = {
-              Bucket: process.env.S3_BUCKET_NAME!,
-              Key: fileName2,
-              Body: buffer2,
-              ContentType: "image/png",
-              ACL: "public-read",
-            };
-
-            const s3Result1 = await s3.upload(s3Params1).promise();
-            const s3Result2 = await s3.upload(s3Params2).promise();
-
+          if (file1 && file2) {
             // Construct the file URLs
-            file1Url = `https://${process.env.S3_BUCKET_BASE_URL}/${fileName1}`;
-            file2Url = `https://${process.env.S3_BUCKET_BASE_URL}/${fileName2}`;
+            const file1Url = await uploadAvatar(file1, fileName1);
+            const file2Url = await uploadAvatar(file2, fileName2);
 
             await pb.collection("krathong").create({
               blessing,
@@ -118,17 +107,8 @@ export const krathongRouter = createTRPCRouter({
               authorimageUpload2: file2Url,
               created2: new Date().toISOString(),
             });
-          } else if (buffer1 && !buffer2) {
-            const s3Params1 = {
-              Bucket: process.env.S3_BUCKET_NAME!,
-              Key: fileName1,
-              Body: buffer1,
-              ContentType: "image/png",
-              ACL: "public-read",
-            };
-
-            const s3Result1 = await s3.upload(s3Params1).promise();
-            file1Url = `https://${process.env.S3_BUCKET_BASE_URL}/${fileName1}`;
+          } else if (file1 && !file2) {
+            const file1Url = await uploadAvatar(file1, fileName1);
 
             await pb.collection("krathong").create({
               blessing,
@@ -139,17 +119,8 @@ export const krathongRouter = createTRPCRouter({
               authorimageDefault2: input.author2.avatar,
               created2: new Date().toISOString(),
             });
-          } else if (!buffer1 && buffer2) {
-            const s3Params2 = {
-              Bucket: process.env.S3_BUCKET_NAME!,
-              Key: fileName2,
-              Body: buffer2,
-              ContentType: "image/png",
-              ACL: "public-read",
-            };
-
-            const s3Result2 = await s3.upload(s3Params2).promise();
-            file2Url = `https://${process.env.S3_BUCKET_BASE_URL}/${fileName2}`;
+          } else if (!file1 && file2) {
+            const file2Url = await uploadAvatar(file2, fileName2);
             await pb.collection("krathong").create({
               blessing,
               image: krathongImage,
@@ -171,27 +142,14 @@ export const krathongRouter = createTRPCRouter({
             });
           }
         } else {
-          let fileUrl = null;
-          let buffer1 = null;
+          let file1: string | null = null;
 
           if (input.author1.avatarUpload) {
-            // file = base64ToFile(input.author1.avatarUpload, "krathong1.jpg");
-            // file = input.author1.avatarUpload;
-            const file = input.author1.avatarUpload;
-            buffer1 = Buffer.from(file.split(",")[1]!, "base64");
+            const file1 = input.author1.avatarUpload;
           }
 
-          if (buffer1) {
-            const s3Params1 = {
-              Bucket: process.env.S3_BUCKET_NAME!,
-              Key: fileName1,
-              Body: buffer1,
-              ContentType: "image/png",
-              ACL: "public-read",
-            };
-
-            const s3Result1 = await s3.upload(s3Params1).promise();
-            fileUrl = `https://${process.env.S3_BUCKET_BASE_URL}/${fileName1}`;
+          if (file1) {
+            const fileUrl = await uploadAvatar(file1, fileName1);
             await pb.collection("krathong").create({
               blessing,
               image: krathongImage,
