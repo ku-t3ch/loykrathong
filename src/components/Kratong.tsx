@@ -18,11 +18,9 @@ interface Props {
 const Kratong: NextPage<Props> = ({ className, data }) => {
     const [ShowDetail, setShowDetail] = useState(false);
 
-    console.log(data)
-    const avatar1 = fileNameToUrl(data?.authorimageUpload!, data?.authorimageDefault!, data!)
-    const avatar2 = fileNameToUrl(data?.authorimageUpload2!, data?.authorimageDefault2!, data!)
-    console.log("avatar1:", avatar1);
-    console.log("avatar2:", avatar2);
+    const avatar1 = data?.authorimageUpload ?? data?.authorimageDefault
+    const avatar2 = data?.authorimageUpload2 ?? data?.authorimageDefault2
+    // const avatar2 = fileNameToUrl(data?.authorimageUpload2!, data?.authorimageDefault2!, data!)
 
     return (
         <motion.div
