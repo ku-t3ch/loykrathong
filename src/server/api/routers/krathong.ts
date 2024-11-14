@@ -145,7 +145,7 @@ export const krathongRouter = createTRPCRouter({
           let file1: string | null = null;
 
           if (input.author1.avatarUpload) {
-            const file1 = input.author1.avatarUpload;
+            file1 = input.author1.avatarUpload;
           }
 
           if (file1) {
