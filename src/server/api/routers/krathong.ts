@@ -60,9 +60,13 @@ export const krathongRouter = createTRPCRouter({
           throw new Error("คุณไม่ผ่านการตรวจสอบ");
         }
 
+        const timestamp = Date.now(); 
+        const randomSuffix = Math.floor(Math.random() * 1000); 
+
+        const fileName1 = `${timestamp}-${randomSuffix}-author1.png`; 
+        const fileName2 = `${timestamp}-${randomSuffix}-author2.png`; 
+
         if (input.author2) {
-          const fileName1 = input.author1.name;
-          const fileName2 = input.author2.name;
           let buffer1 = null;
           let buffer2 = null;
           let file1Url = null;
@@ -178,7 +182,6 @@ export const krathongRouter = createTRPCRouter({
           }
 
           if (buffer1) {
-            const fileName1 = input.author1.name;
             const s3Params1 = {
               Bucket: process.env.S3_BUCKET_NAME!,
               Key: fileName1,
