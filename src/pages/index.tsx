@@ -62,7 +62,7 @@ export default function Home() {
     const [KeyRerender, setKeyRerender] = useState(0)
 
     const getData = async () => {
-        const { data } = await axios.get("https://pocketbase.sornchaithedev.com/api/collections/krathong/records?page=1&perPage=10&skipTotal=1&sort=-created")
+        const { data } = await axios.get("https://pocketbase.tech.nisit.ku.ac.th/api/collections/krathong/records?page=1&perPage=10&skipTotal=1&sort=-created")
 
         const records = data.items as Krathong[]
 
