@@ -1,5 +1,4 @@
 import { Krathong } from '@/interfaces/Krathong'
-import { cdn } from '@/utils/cdn'
 import fileNameToUrl from '@/utils/fileNameToUrl'
 import { Avatar, Divider } from 'antd'
 import { NextPage } from 'next'
@@ -28,7 +27,7 @@ const BlessingCoponent: NextPage<Props> = ({ data }) => {
                 initial={{ opacity: 0, translateY: '-100px' }}
                 animate={{ opacity: 1, translateY: '0px' }}
                 exit={{ opacity: 0 }}
-                className='w-[6rem] drop-shadow-lg object-contain' src={cdn + "/" + data.image} alt="" />
+                className='w-[6rem] drop-shadow-lg object-contain' src={"assets/" + data.image} alt="" />
             <div className='flex flex-col gap-1 truncate py-2'>
                 <div className='flex gap-3'>
                     <div className='flex items-center gap-2 p-1 rounded-lg'>

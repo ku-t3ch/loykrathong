@@ -1,5 +1,4 @@
 import { AuthorState } from "@/interfaces/AuthorState";
-import { cdn } from "@/utils/cdn";
 import { CheckIcon, UploadIcon } from "lucide-react";
 import { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
@@ -11,7 +10,7 @@ interface Props {
 const KratongAuthor: NextPage<Props> = ({ onChange, value }) => {
     const input = useRef<HTMLInputElement>(null);
 
-    const [Select, setSelect] = useState<string | undefined>(value?.image || "/avatar/1.webp");
+    const [Select, setSelect] = useState<string | undefined>(value?.image || "assets/avatar/1.webp");
     const [Image, setImage] = useState<string | undefined>(value?.isImageUpload || undefined);
     const [inputValue, setInputValue] = useState(value?.name || "");
 
@@ -105,34 +104,34 @@ const KratongAuthor: NextPage<Props> = ({ onChange, value }) => {
                             <img src={Image} alt="" />
                         )}
                     </div>
-                    <div onClick={() => onSelect("/avatar/1.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
-                        <img className="object-cover" src={"/avatar/1.webp"} alt="" />
+                    <div onClick={() => onSelect("assets/avatar/1.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
+                        <img className="object-cover" src={"assets/avatar/1.webp"} alt="" />
 
-                        {Select === "/avatar/1.webp" && (
+                        {Select === "assets/avatar/1.webp" && (
                             <div className="absolute bottom-1 right-1 flex h-[1rem] w-[1rem] items-center justify-center rounded-full bg-green-500 md:h-[2rem] md:w-[2rem]">
                                 <CheckIcon />
                             </div>
                         )}
                     </div>
-                    <div onClick={() => onSelect("/avatar/2.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
-                        <img className="object-cover" src={"/avatar/2.webp"} alt="" />
-                        {Select === "/avatar/2.webp" && (
+                    <div onClick={() => onSelect("assets/avatar/2.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
+                        <img className="object-cover" src={"assets/avatar/2.webp"} alt="" />
+                        {Select === "assets/avatar/2.webp" && (
                             <div className="absolute bottom-1 right-1 flex h-[1rem] w-[1rem] items-center justify-center rounded-full bg-green-500 md:h-[2rem] md:w-[2rem]">
                                 <CheckIcon />
                             </div>
                         )}
                     </div>
-                    <div onClick={() => onSelect("/avatar/3.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
-                        <img className="object-cover" src={"/avatar/3.webp"} alt="" />
-                        {Select === "/avatar/3.webp" && (
+                    <div onClick={() => onSelect("assets/avatar/3.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
+                        <img className="object-cover" src={"assets/avatar/3.webp"} alt="" />
+                        {Select === "assets/avatar/3.webp" && (
                             <div className="absolute bottom-1 right-1 flex h-[1rem] w-[1rem] items-center justify-center rounded-full bg-green-500 md:h-[2rem] md:w-[2rem]">
                                 <CheckIcon />
                             </div>
                         )}
                     </div>
-                    <div onClick={() => onSelect("/avatar/4.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
-                        <img className="object-cover" src={"/avatar/4.webp"} alt="" />
-                        {Select === "/avatar/4.webp" && (
+                    <div onClick={() => onSelect("assets/avatar/4.webp")} className="relative flex h-[6rem] w-[6rem] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-lg border text-white hover:bg-black/30">
+                        <img className="object-cover" src={"assets/avatar/4.webp"} alt="" />
+                        {Select === "assets/avatar/4.webp" && (
                             <div className="absolute bottom-1 right-1 flex h-[1rem] w-[1rem] items-center justify-center rounded-full bg-green-500 md:h-[2rem] md:w-[2rem]">
                                 <CheckIcon />
                             </div>

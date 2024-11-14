@@ -9,7 +9,7 @@ const TurnstileWidget: NextPage<Props> = ({ onVerify }) => {
     const turnstile = useTurnstile();
     return (
         <Turnstile
-            sitekey={process.env.turnstileSiteKey!}
+            sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
             onVerify={(token) => {
                 onVerify(token);
             }}

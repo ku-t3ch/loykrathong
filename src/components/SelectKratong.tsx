@@ -1,4 +1,3 @@
-import { cdn } from "@/utils/cdn";
 import krathong from "@/utils/krathong";
 import clsx from "clsx";
 import { CheckIcon } from "lucide-react";
@@ -33,7 +32,7 @@ const SelectKratong: NextPage<Props> = ({ onSelect, value }) => {
                         </div>
                     )}
                     <div className="absolute bottom-0 left-0 right-0 top-0 select-none" />
-                    <img src={cdn + "/" + item} className="object-contain" alt="" />
+                    <img src={"assets/" + item} className="object-contain" alt="" />
                 </div>
             ))}
         </div>

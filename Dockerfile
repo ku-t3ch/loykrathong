@@ -22,6 +22,10 @@ RUN \
 ##### BUILDER
 
 FROM --platform=linux/amd64 node:18-alpine AS builder
+ARG NEXT_PUBLIC_POCKETBASE_URL
+ARG NEXT_PUBLIC_TURNSTILE_SITE_KEY
+ARG NEXT_PUBLIC_BASE_URL
+ARG NEXT_PUBLIC_POCKETBASE_COLLECTION_NAME
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

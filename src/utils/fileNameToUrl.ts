@@ -1,7 +1,6 @@
 import { Krathong } from "@/interfaces/Krathong";
 import { RecordModel } from "pocketbase";
 import { pb } from "./pocketbase";
-import { cdn } from "./cdn";
 
 const fileNameToUrl = (
   fileName: string,
@@ -18,7 +17,7 @@ const fileNameToUrl = (
     const url = pb.files.getUrl(record, fileName, { thumb: "100x250" });
     return url;
   } else {
-    return cdn + defaultImage;
+    return "/avatar" + defaultImage;
   }
 };
 

@@ -1,4 +1,3 @@
-import { cdn } from "@/utils/cdn";
 import { css } from "@emotion/css";
 import { Avatar } from "antd";
 import clsx from "clsx";
@@ -47,7 +46,7 @@ const Kratong: NextPage<Props> = ({ className, data }) => {
             </div>}
 
             <img
-                src={cdn + "/" + data?.image!}
+                src={"/assets/" + data?.image!}
                 className="pointer-events-none object-contain relative z-10 w-[8rem] md:w-[10rem]"
                 alt=""
             />
